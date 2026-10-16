@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8511491207993613445}
   - component: {fileID: -7298321260496365902}
   - component: {fileID: 946440070493729224}
-  - component: {fileID: -8533345482444641232}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
@@ -122,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4175645587032510296, guid: 463f740f9b199fd4e9753db764787b5b, type: 3}
+      - m_Target: {fileID: 946440070493729224}
         m_TargetAssemblyTypeName: DescriptionToggle, Assembly-CSharp
         m_MethodName: ToggleMenu
         m_Mode: 1
@@ -147,15 +146,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DescriptionToggle
   targetMenu: {fileID: 407593881962172861, guid: 76ba4c9bc8183b7468874b20263102ac, type: 3}
---- !u!114 &-8533345482444641232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3159232825823814350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acdf435044f882f4d82b949e9b26df11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'

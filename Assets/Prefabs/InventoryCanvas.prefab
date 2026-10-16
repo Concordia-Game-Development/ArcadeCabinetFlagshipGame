@@ -233,7 +233,7 @@ PrefabInstance:
     - target: {fileID: -7298321260496365902, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4175645587032510296}
+      objectReference: {fileID: 507668097797359427}
     - target: {fileID: -7298321260496365902, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleMenu
@@ -330,6 +330,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8716652790297385117}
   m_SourcePrefab: {fileID: 100100000, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
+--- !u!114 &507668097797359427 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 946440070493729224, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
+  m_PrefabInstance: {fileID: 732388316791174795}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449446715976094789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e4cac314d863704aa4a0f1e6e62caf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DescriptionToggle
 --- !u!1 &2449446715976094789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3159232825823814350, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
@@ -375,7 +386,7 @@ PrefabInstance:
     - target: {fileID: -7298321260496365902, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4175645587032510296}
+      objectReference: {fileID: 1472697568764754486}
     - target: {fileID: -7298321260496365902, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleMenu
@@ -472,6 +483,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 280095375725484287}
   m_SourcePrefab: {fileID: 100100000, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
+--- !u!114 &1472697568764754486 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 946440070493729224, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
+  m_PrefabInstance: {fileID: 1824657791805328382}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3640497414899493168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e4cac314d863704aa4a0f1e6e62caf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DescriptionToggle
 --- !u!1 &3640497414899493168 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3159232825823814350, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
@@ -517,7 +539,7 @@ PrefabInstance:
     - target: {fileID: -7298321260496365902, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4175645587032510296}
+      objectReference: {fileID: 4312100078567066789}
     - target: {fileID: -7298321260496365902, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleMenu
@@ -643,6 +665,17 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &4312100078567066789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 946440070493729224, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
+  m_PrefabInstance: {fileID: 3960289245135240557}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099275089474133923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e4cac314d863704aa4a0f1e6e62caf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DescriptionToggle
 --- !u!224 &9098723198537681909 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5237948723608434328, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
@@ -745,11 +778,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3159232825823814350, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2368316844823976616}
+      insertIndex: 3
+      addedObject: {fileID: 6464602271008124236}
     - targetCorrespondingSourceObject: {fileID: 3159232825823814350, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6464602271008124236}
+      addedObject: {fileID: 2368316844823976616}
   m_SourcePrefab: {fileID: 100100000, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
 --- !u!114 &1645942804575770459 stripped
 MonoBehaviour:
@@ -772,30 +805,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3159232825823814350, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
   m_PrefabInstance: {fileID: 6974233500635925470}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2368316844823976616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5412955043013060880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 42, y: 42}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
 --- !u!114 &6464602271008124236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,7 +849,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4175645587032510296}
+      - m_Target: {fileID: 7920453301516237334}
         m_TargetAssemblyTypeName: DescriptionToggle, Assembly-CSharp
         m_MethodName: ToggleMenu
         m_Mode: 1
@@ -852,6 +861,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &2368316844823976616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412955043013060880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 42, y: 42}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
+--- !u!114 &7920453301516237334 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 946440070493729224, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
+  m_PrefabInstance: {fileID: 6974233500635925470}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412955043013060880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e4cac314d863704aa4a0f1e6e62caf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DescriptionToggle
 --- !u!1001 &8553356449979582170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -975,13 +1019,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 407593881962172861, guid: 76ba4c9bc8183b7468874b20263102ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8344026275100369203}
   m_SourcePrefab: {fileID: 100100000, guid: 76ba4c9bc8183b7468874b20263102ac, type: 3}
 --- !u!1 &8294416817140406119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 407593881962172861, guid: 76ba4c9bc8183b7468874b20263102ac, type: 3}
   m_PrefabInstance: {fileID: 8553356449979582170}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8344026275100369203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294416817140406119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acdf435044f882f4d82b949e9b26df11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DescriptionUI
+  itemName: {fileID: 0}
+  itemDescription: {fileID: 0}
 --- !u!224 &9022886472963662416 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 829818118879143050, guid: 76ba4c9bc8183b7468874b20263102ac, type: 3}

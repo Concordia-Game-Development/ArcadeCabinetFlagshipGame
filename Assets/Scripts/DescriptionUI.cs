@@ -8,12 +8,20 @@ public class DescriptionUI : MonoBehaviour
         get;
         private set;
     }
-    private TMP_Text itemName;
-    private TMP_Text itemDescription;
+    [Header("UI Refrences")]
+    [SerializeField] private TMP_Text itemName;
+    [SerializeField] private TMP_Text itemDescription;
+    [SerializeField] private Sprite itemIcon;
 
     //gets instance and makes sure that everythign is hidden
+    //uses a singleton pattern in order to make clicking a differnt oobject show differnt text and for scalability
     void Awake()
     {
+        if (Instance != null && Instance != this){
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
@@ -24,6 +32,7 @@ public class DescriptionUI : MonoBehaviour
         }
         itemName.text = data.itemName;
         itemDescription.text = data.itemDescription;
+        itemIcon = data.itemIcon;
 
     }
 
