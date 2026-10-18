@@ -301,7 +301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomSpawner
   roomSize: {x: 0, y: 0}
-  _roomsFolder: Assets\Room Prefabs
+  _resourcesFolder: Assets/Resources/
+  _roomsSubFolder: Room Prefabs
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

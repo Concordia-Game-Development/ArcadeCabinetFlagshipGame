@@ -8,10 +8,6 @@ using UnityEngine;
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
 {
-    // The room's size stored as a 2D vector.
-    public Vector2 roomSize = Vector2.zero;
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created.
     void Start()
     {
@@ -36,13 +32,17 @@ public class RoomSpawner : MonoBehaviour
 
 
     #region Room Spawning
+    // The room's size stored as a 2D vector.
+    public Vector2 roomSize = Vector2.zero;
+
+
     // Spawns a new Room from a prefab.
     private GameObject SpawnRoom(GameObject room)
     {
         // Catches an error if a null value was passed.       
         if (!room)
         {
-            Debug.LogWarning("SpawnRoom() called with null room reference !");
+            Debug.LogWarning("SpawnRoom() called with null room reference !", gameObject);
             return null;
         }
 
@@ -53,7 +53,7 @@ public class RoomSpawner : MonoBehaviour
         if (!_instance.GetComponent<Room>())
         {
             Destroy(_instance);
-            Debug.LogWarning("SpawnRoom() called with something that is not a room !");
+            Debug.LogWarning("SpawnRoom() called with something that is not a room !", gameObject);
             return null;
         }
 
@@ -77,31 +77,52 @@ public class RoomSpawner : MonoBehaviour
 
 
     #region Room Picking
-    // The folder where room prefabs are stored.
-    [SerializeField] private string _roomsFolder;
+    // The directory containing the room prefabs.
+    [SerializeField] private string _roomsFolder = "Assets/Resources/Room Prefabs";
 
     // The array that will store all room paths.
     private string[] _availableRooms = Array.Empty<string>();
 
 
-    // Fills the _availableRooms array with the path for every spawnable room prefab.
+    // Fills the _availableRooms array with the path (relative to the Resources folder) for every spawnable room prefab.
     private void SetRoomsArray()
     {
-        _availableRooms = Directory.GetFiles(_roomsFolder, "*.prefab");
-        if (_availableRooms.Length == 0)
+        // Gets an array of all file paths in the _roomsFolder directory.
+        string[] _roomPaths = Directory.GetFiles(_roomsFolder, "*.prefab");
+
+        // Catches a warning if the folder contains no prefab.
+        if (_roomPaths.Length == 0)
         {
-            Debug.LogWarning("Rooms folder is empty !");
+            Debug.LogWarning("Rooms folder is empty !", gameObject);
+            return;
         }
-        else
+
+        // Cuts each path to remove the part up to the Resources directory.
+        for (int id = 0; id < _roomPaths.Length; id += 1)
         {
-            Debug.Log($"Available Rooms : {string.Join(", ", _availableRooms)}");
+            string _path = _roomPaths[id];
+            _path = _path[(_path.IndexOf("Resources") + "Resources/".Length)..];
+            _path = Path.ChangeExtension(_path, null);
+            _roomPaths[id] = _path;
         }
+
+        _availableRooms = _roomPaths;
+        Debug.Log("_availableRooms = [" + string.Join(", ", _availableRooms) + "]");
     }
 
 
-    // Picks a room to spawn.
+    // Picks a room to spawn from _availableRooms.
     private GameObject PickRoom()
     {
+        // Warning if there are no available room prefabs to pick.
+        if (_availableRooms.Length == 0)
+        {
+            Debug.LogWarning("No available room to pick !", gameObject);
+            return null;
+        }
+
+        string _room = _availableRooms[UnityEngine.Random.Range(0, _availableRooms.Length)];
+
         return null;
     }
     #endregion
