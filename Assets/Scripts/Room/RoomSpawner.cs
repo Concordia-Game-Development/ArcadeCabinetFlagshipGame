@@ -8,10 +8,16 @@ using UnityEngine;
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created.
-    void Start()
+    // Calls SetRoomsArray().
+    void Awake()
     {
         SetRoomsArray();
+    }
+
+    // Called in the beginning.
+    void Start()
+    {
+        SwitchRoom();
     }
 
     // Update is called once per frame.
@@ -27,15 +33,16 @@ public class RoomSpawner : MonoBehaviour
         SetSpawnPosition();
         GameObject _room = PickRoom();
 
-        SpawnRoom(_room);
+        _room = SpawnRoom(_room);
+
+        if (_room)
+        {
+            Debug.Log("Switched successfully to room " + _room.name, gameObject);
+        }
     }
 
 
     #region Room Spawning
-    // The room's size stored as a 2D vector.
-    public Vector2 roomSize = Vector2.zero;
-
-
     // Spawns a new Room from a prefab.
     private GameObject SpawnRoom(GameObject room)
     {
@@ -49,21 +56,23 @@ public class RoomSpawner : MonoBehaviour
         // Instantiates the room at the spawn position.
         GameObject _instance = Instantiate(room, _spawnPosition, Quaternion.identity);
 
-        // Catches an error if a non-Room prefab was passed.
         if (!_instance.GetComponent<Room>())
         {
             Destroy(_instance);
-            Debug.LogWarning("SpawnRoom() called with something that is not a room !", gameObject);
+            Debug.LogError("The loaded prefab " + _instance.name + " passed to SpawnRoom() is not a room !", gameObject);
             return null;
         }
 
-        // Returns a reference to the valid room which was created.
+        // Returns a reference to the room which was created.
         return _instance;
     }
     #endregion
 
 
     #region Spawn Position
+    // The room's size stored as a 2D vector.
+    public Vector2 roomSize = Vector2.zero;
+
     // The position where the next room will be spawned.
     private Vector3 _spawnPosition = Vector3.zero;
 
@@ -76,7 +85,7 @@ public class RoomSpawner : MonoBehaviour
     #endregion
 
 
-    #region Room Picking
+    #region Room Directory
     // The directory containing the room prefabs.
     [SerializeField] private string _roomsFolder = "Assets/Resources/Room Prefabs";
 
@@ -84,7 +93,7 @@ public class RoomSpawner : MonoBehaviour
     private string[] _availableRooms = Array.Empty<string>();
 
 
-    // Fills the _availableRooms array with the path (relative to the Resources folder) for every spawnable room prefab.
+    // Fills the _availableRooms array with the path (relative to the Resources folder) for every spawnable room prefab. Called with Start()
     private void SetRoomsArray()
     {
         // Gets an array of all file paths in the _roomsFolder directory.
@@ -109,8 +118,10 @@ public class RoomSpawner : MonoBehaviour
         _availableRooms = _roomPaths;
         Debug.Log("_availableRooms = [" + string.Join(", ", _availableRooms) + "]");
     }
+    #endregion
 
 
+    #region Room Picking
     // Picks a room to spawn from _availableRooms.
     private GameObject PickRoom()
     {
@@ -121,9 +132,20 @@ public class RoomSpawner : MonoBehaviour
             return null;
         }
 
-        string _room = _availableRooms[UnityEngine.Random.Range(0, _availableRooms.Length)];
+        // Picks a random path in _availableRooms.
+        string _roomPath = _availableRooms[UnityEngine.Random.Range(0, _availableRooms.Length)];
 
-        return null;
+        GameObject _room = Resources.Load<GameObject>(_roomPath);
+
+        // Warning if the room could not be loaded.
+        if (!_room)
+        {
+            Debug.LogError("Prefab at path " + _roomPath + " could not be loaded in PickRoom() !", gameObject);
+            return null;
+        }
+
+        // Returns the loaded room.
+        return _room;
     }
     #endregion
 }

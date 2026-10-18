@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8730061927073147900}
   - component: {fileID: 4500413153502538804}
   - component: {fileID: 9200332203327731174}
+  - component: {fileID: 5785072228538046509}
   m_Layer: 0
   m_Name: TestRoom0
   m_TagString: Untagged
@@ -183,3 +184,15 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 4500413153502538804}
   m_maskType: 0
+--- !u!114 &5785072228538046509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924844211265038947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3f0639eb6ec2954b938ce77f8edff39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room
