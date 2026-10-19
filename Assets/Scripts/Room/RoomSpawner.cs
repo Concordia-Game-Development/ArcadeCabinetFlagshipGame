@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.Collections.Tests.CoreCLR.TestJobs;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,14 +31,13 @@ public class RoomSpawner : MonoBehaviour
     // The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
     public void SwitchRoom()
     {
-        SetSpawnPosition();
         GameObject _room = PickRoom();
 
         _room = SpawnRoom(_room);
 
         if (_room)
         {
-            Debug.Log("Switched successfully to room " + _room.name, gameObject);
+            Debug.Log("Successfully switched to room " + _room.name, gameObject);
         }
     }
 
@@ -52,6 +52,9 @@ public class RoomSpawner : MonoBehaviour
             Debug.LogWarning("SpawnRoom() called with null room reference !", gameObject);
             return null;
         }
+
+        // Defines the position where the next room will be spawned.
+        Vector3 _spawnPosition = SetSpawnPosition();
 
         // Instantiates the room at the spawn position.
         GameObject _instance = Instantiate(room, _spawnPosition, Quaternion.identity);
@@ -70,17 +73,22 @@ public class RoomSpawner : MonoBehaviour
 
 
     #region Spawn Position
+    // The position where the initial room is spawned.
+    public Vector3 spawnPosition = Vector3.zero;
     // The room's size stored as a 2D vector.
     public Vector2 roomSize = Vector2.zero;
 
-    // The position where the next room will be spawned.
-    private Vector3 _spawnPosition = Vector3.zero;
+    // The direction where the party exits a room after clearing it, as a normalized vector.
+    public Vector3 exitDirection = Vector3.up;
 
 
     // Defines where the next room will be spawned.
-    private void SetSpawnPosition()
+    private Vector3 SetSpawnPosition()
     {
-        return;
+        // Moves the spawnPosition to the location of the next room.
+        spawnPosition += new Vector3(roomSize.x * exitDirection.x, roomSize.y * exitDirection.y);
+        Debug.Log(spawnPosition);
+        return spawnPosition;
     }
     #endregion
 
