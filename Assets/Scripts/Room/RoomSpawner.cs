@@ -32,9 +32,16 @@ public class RoomSpawner : MonoBehaviour
     // The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
     public void SwitchRoom()
     {
-        GameObject _spawnedRoom = SpawnRoom(
+        // Creates a new room.
+        SpawnRoom(
             PickRoom()
         );
+
+        if (roomNumber > 1)
+        {
+            // Deletes the previous room.
+            DeleteRoom(roomNumber - 2);
+        }
     }
 
 
@@ -49,12 +56,12 @@ public class RoomSpawner : MonoBehaviour
 
 
     // Delete a single room, by its index in _spawnedRooms.
-    public void DeleteRoom(uint roomId)
+    private void DeleteRoom(int roomId)
     {
         // In case the game tries to remove an invalid room.
         if (!(roomId >= 0 && roomId < _spawnedRooms.Length))
         {
-            Debug.LogError("Deleting a room that doesn't exist.", gameObject);
+            Debug.LogError("Deleting a room that doesn't exist : " + roomId.ToString(), gameObject);
             return;
         }
 
@@ -72,14 +79,14 @@ public class RoomSpawner : MonoBehaviour
 
 
     // Deletes all spawned rooms with references within _spawnedRooms. Skips the hassle if there are no rooms.
-    public void DeleteAllRooms()
+    private void DeleteAllRooms()
     {
         if (_spawnedRooms.Length == 0)
         {
             return;
         }
 
-        for (uint id = 0; id < _spawnedRooms.Length; id += 1)
+        for (int id = 0; id < _spawnedRooms.Length; id += 1)
         {
             DeleteRoom(id);
         }
@@ -129,14 +136,14 @@ public class RoomSpawner : MonoBehaviour
     // The position where the initial room is spawned.
     public Vector3 initialSpawnPosition = Vector3.zero;
     // The room's size stored as a 2D vector.
-    public Vector2 roomSize = new Vector2(480, 480);
+    public Vector2 roomSize = Vector2.zero;
 
     // The direction where the party exits a room after clearing it, as a normalized vector.
     public Vector3 exitDirection = Vector3.up;
 
 
-    // The number of rooms already generated. Also works for the index (starting at 0) of the party's current room.
-    private uint roomNumber = 0;
+    // The number of rooms already generated. Also works for the index (starting at 0) of the party's next room.
+    private int roomNumber = 0;
 
 
     // Defines where the next room will be spawned.

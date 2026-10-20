@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomSpawner
   initialSpawnPosition: {x: 0, y: 0, z: 0}
-  roomSize: {x: 480, y: 480}
+  roomSize: {x: 420, y: 420}
   exitDirection: {x: 0, y: 1, z: 0}
   _roomsFolder: Assets/Resources/Room Prefabs
 --- !u!1660057539 &9223372036854775807

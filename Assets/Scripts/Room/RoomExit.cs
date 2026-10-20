@@ -19,11 +19,24 @@ public class RoomExit : MonoBehaviour
     // OnTriggerEnter is called when the Collider other enters the trigger
     private void OnTriggerEnter(Collider other)
     {
-        ExitRoom();
+        GameObject _colliderOwner = other.gameObject;
+
+        // Checks whether an actual player passed the exit.
+        if (IsPlayer(_colliderOwner))
+        {
+            ExitRoom();
+        }
     }
 
 
-    // Whatever happens when the party exits the room (call RoomSpawner.SwitchRoom() somehow).
+    // Checks whether colliderOwner is a player (the method is empty for now because idk what will tell that away).
+    private bool IsPlayer(GameObject colliderOwner)
+    {
+        return true;
+    }
+
+
+    // Whatever happens when the party exits the room (calls RoomSpawner.SwitchRoom() somehow).
     private void ExitRoom()
     {
         return;
