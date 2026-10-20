@@ -125,6 +125,10 @@ public class RoomSpawner : MonoBehaviour
 
         _spawnedRooms.Append(_instance);
 
+        // Passes a reference of the spawner to the room.
+        Room _spawnedRoom = _instance.GetComponent<Room>();
+        _spawnedRoom.spawner = this;
+
         // Returns a reference to the room which was created.
         return _instance;
     }
