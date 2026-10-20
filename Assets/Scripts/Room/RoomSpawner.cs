@@ -19,7 +19,7 @@ public class RoomSpawner : MonoBehaviour
     // Called in the beginning.
     void Start()
     {
-        SwitchRoom();
+        ResetRoomSpawner();
     }
 
     // Update is called once per frame.
@@ -42,6 +42,8 @@ public class RoomSpawner : MonoBehaviour
     public void ResetRoomSpawner()
     {
         roomNumber = 0;
+        DeleteAllRooms();
+        SwitchRoom();
     }
     #endregion
 
@@ -69,9 +71,14 @@ public class RoomSpawner : MonoBehaviour
     }
 
 
-    // Deletes all spawned rooms with references within _spawnedRooms.
+    // Deletes all spawned rooms with references within _spawnedRooms. Skips the hassle if there are no rooms.
     public void DeleteAllRooms()
     {
+        if (_spawnedRooms.Length == 0)
+        {
+            return;
+        }
+
         for (uint id = 0; id < _spawnedRooms.Length; id += 1)
         {
             DeleteRoom(id);
@@ -122,7 +129,7 @@ public class RoomSpawner : MonoBehaviour
     // The position where the initial room is spawned.
     public Vector3 initialSpawnPosition = Vector3.zero;
     // The room's size stored as a 2D vector.
-    public Vector2 roomSize = Vector2.zero;
+    public Vector2 roomSize = new Vector2(480, 480);
 
     // The direction where the party exits a room after clearing it, as a normalized vector.
     public Vector3 exitDirection = Vector3.up;
@@ -175,12 +182,14 @@ public class RoomSpawner : MonoBehaviour
         }
 
         _availableRooms = _roomPaths;
+        /*
         Debug.Log("_availableRooms = [" + string.Join(", ", _availableRooms) + "]");
+        */
     }
     #endregion
 
 
-    // Picking a room to spawn.
+    // Pickng a room to spawn.
     #region Room Picking
     // Picks a room to spawn from _availableRooms.
     private GameObject PickRoom()
