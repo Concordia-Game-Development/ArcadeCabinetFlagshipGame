@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Unity.Collections.Tests.CoreCLR.TestJobs;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
@@ -24,25 +25,67 @@ public class RoomSpawner : MonoBehaviour
     // Update is called once per frame.
     void Update()
     {
-
+        return;
     }
 
-
+    #region Public Methods
     // The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
     public void SwitchRoom()
     {
-        GameObject _room = PickRoom();
+        GameObject _spawnedRoom = SpawnRoom(
+            PickRoom()
+        );
+    }
 
-        _room = SpawnRoom(_room);
 
-        if (_room)
+    // The method to reset the room spawner. It can be called by the game manager or something when the entire party got obliterated.
+    public void ResetRoomSpawner()
+    {
+        roomNumber = 0;
+    }
+    #endregion
+
+
+    // Delete a single room, by its index in _spawnedRooms.
+    public void DeleteRoom(uint roomId)
+    {
+        // In case the game tries to remove an invalid room.
+        if (!(roomId >= 0 && roomId < _spawnedRooms.Length))
         {
-            Debug.Log("Successfully switched to room " + _room.name, gameObject);
+            Debug.LogError("Deleting a room that doesn't exist.", gameObject);
+            return;
+        }
+
+        // Finding the room.
+        GameObject _room = _spawnedRooms[roomId];
+
+        if (!_room)
+        {
+            Debug.LogWarning("Already no room at " + roomId.ToString(), gameObject);
+        }
+
+        // Destroying the room.
+        Destroy(_room);
+    }
+
+
+    // Deletes all spawned rooms with references within _spawnedRooms.
+    public void DeleteAllRooms()
+    {
+        for (uint id = 0; id < _spawnedRooms.Length; id += 1)
+        {
+            DeleteRoom(id);
         }
     }
 
 
+
+    // Spawning the room and tracking the instances.
     #region Room Spawning
+    // Keeps a reference of every spawned room.
+    private GameObject[] _spawnedRooms = Array.Empty<GameObject>();
+
+
     // Spawns a new Room from a prefab.
     private GameObject SpawnRoom(GameObject room)
     {
@@ -66,15 +109,18 @@ public class RoomSpawner : MonoBehaviour
             return null;
         }
 
+        _spawnedRooms.Append(_instance);
+
         // Returns a reference to the room which was created.
         return _instance;
     }
     #endregion
 
 
+    // Defining where to spawn the next room.
     #region Spawn Position
     // The position where the initial room is spawned.
-    public Vector3 spawnPosition = Vector3.zero;
+    public Vector3 initialSpawnPosition = Vector3.zero;
     // The room's size stored as a 2D vector.
     public Vector2 roomSize = Vector2.zero;
 
@@ -82,17 +128,22 @@ public class RoomSpawner : MonoBehaviour
     public Vector3 exitDirection = Vector3.up;
 
 
+    // The number of rooms already generated. Also works for the index (starting at 0) of the party's current room.
+    private uint roomNumber = 0;
+
+
     // Defines where the next room will be spawned.
     private Vector3 SetSpawnPosition()
     {
-        // Moves the spawnPosition to the location of the next room.
-        spawnPosition += new Vector3(roomSize.x * exitDirection.x, roomSize.y * exitDirection.y);
-        Debug.Log(spawnPosition);
-        return spawnPosition;
+        // Moves the initialSpawnPosition to the location of the next room.
+        Vector3 _spawnPosition = initialSpawnPosition + roomNumber * new Vector3(roomSize.x * exitDirection.x, roomSize.y * exitDirection.y);
+        roomNumber += 1;
+        return _spawnPosition;
     }
     #endregion
 
 
+    // Finding the room prefabs in their directory.
     #region Room Directory
     // The directory containing the room prefabs.
     [SerializeField] private string _roomsFolder = "Assets/Resources/Room Prefabs";
@@ -129,6 +180,7 @@ public class RoomSpawner : MonoBehaviour
     #endregion
 
 
+    // Picking a room to spawn.
     #region Room Picking
     // Picks a room to spawn from _availableRooms.
     private GameObject PickRoom()
