@@ -11,6 +11,14 @@ public class RoomExit : MonoBehaviour
     {
         // Finds the first room in its hierachy.
         _room = GetComponentInParent<Room>();
+
+        if (!_room)
+        {
+            return;
+        }
+
+        transform.position = _room.ExitPosition(Vector3.zero);
+        Debug.Log(transform.position.ToString());
     }
 
     // Update is called once per frame

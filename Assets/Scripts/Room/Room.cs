@@ -7,6 +7,19 @@ public class Room : MonoBehaviour
     public RoomSpawner spawner = null;
 
 
+    void Start()
+    {
+        return;
+    }
+
+
+    void Update()
+    {
+        return;
+    }
+
+
+    // Going into the next room, triggered by the child RoomExit.
     public void NextRoom()
     {
         if (!spawner)
@@ -15,5 +28,18 @@ public class Room : MonoBehaviour
         }
 
         spawner.SwitchRoom();
+    }
+
+
+    public Vector3 ExitPosition(Vector3 offset)
+    {
+        if (!spawner)
+        {
+            return Vector3.zero;
+        }
+
+        Vector3 _roomSize = new Vector3(0, spawner.roomSize.y);
+
+        return 0.5f * _roomSize + offset;
     }
 }

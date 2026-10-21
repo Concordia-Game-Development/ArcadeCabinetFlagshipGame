@@ -139,7 +139,7 @@ public class RoomSpawner : MonoBehaviour
     #region Spawn Position
     // The position where the initial room is spawned.
     public Vector3 initialSpawnPosition = Vector3.zero;
-    // The room's size stored as a 2D vector.
+    // The room's size in Unity's mystery units, stored as a 2D vector.
     public Vector2 roomSize = Vector2.zero;
 
     // The direction where the party exits a room after clearing it, as a normalized vector.
