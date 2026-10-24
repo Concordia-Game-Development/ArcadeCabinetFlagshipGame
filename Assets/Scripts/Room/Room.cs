@@ -19,6 +19,14 @@ public class Room : MonoBehaviour
     }
 
 
+    // Called upon entering the room.
+    public void EnterRoom()
+    {
+        // Transition when entering.
+        return;
+    }
+
+
     // Going into the next room, triggered by the child RoomExit.
     public void NextRoom()
     {
@@ -26,6 +34,8 @@ public class Room : MonoBehaviour
         {
             return;
         }
+
+        // Transition when exiting.
 
         spawner.SwitchRoom();
     }
@@ -40,6 +50,6 @@ public class Room : MonoBehaviour
 
         Vector3 _roomSize = new Vector3(0, spawner.roomSize.y);
 
-        return 0.5f * _roomSize + offset;
+        return 0.5f * _roomSize + offset + transform.position;
     }
 }

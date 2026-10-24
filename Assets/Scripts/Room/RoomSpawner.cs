@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ public class RoomSpawner : MonoBehaviour
     void Start()
     {
         ResetRoomSpawner();
+        InvokeRepeating("SwitchRoom", 1, 2);
     }
 
     // Update is called once per frame.
@@ -33,15 +35,29 @@ public class RoomSpawner : MonoBehaviour
     public void SwitchRoom()
     {
         // Creates a new room.
-        SpawnRoom(
+        GameObject _roomObject = SpawnRoom(
             PickRoom()
         );
+
+        if (!_roomObject)
+        {
+            return;
+        }
 
         if (roomNumber > 1)
         {
             // Deletes the previous room.
             DeleteRoom(roomNumber - 2);
         }
+
+        Room _room = _roomObject.GetComponent<Room>();
+
+        if (!_room)
+        {
+            return;
+        }
+
+        _room.EnterRoom();
     }
 
 
@@ -59,7 +75,7 @@ public class RoomSpawner : MonoBehaviour
     private void DeleteRoom(int roomId)
     {
         // In case the game tries to remove an invalid room.
-        if (!(roomId >= 0 && roomId < _spawnedRooms.Length))
+        if (!(roomId >= 0 && roomId < _spawnedRooms.Count))
         {
             Debug.LogError("Deleting a room that doesn't exist : " + roomId.ToString(), gameObject);
             return;
@@ -81,12 +97,12 @@ public class RoomSpawner : MonoBehaviour
     // Deletes all spawned rooms with references within _spawnedRooms. Skips the hassle if there are no rooms.
     private void DeleteAllRooms()
     {
-        if (_spawnedRooms.Length == 0)
+        if (_spawnedRooms.Count == 0)
         {
             return;
         }
 
-        for (int id = 0; id < _spawnedRooms.Length; id += 1)
+        for (int id = 0; id < _spawnedRooms.Count; id += 1)
         {
             DeleteRoom(id);
         }
@@ -97,7 +113,7 @@ public class RoomSpawner : MonoBehaviour
     // Spawning the room and tracking the instances.
     #region Room Spawning
     // Keeps a reference of every spawned room.
-    private GameObject[] _spawnedRooms = Array.Empty<GameObject>();
+    private List<GameObject> _spawnedRooms = new List<GameObject>();
 
 
     // Spawns a new Room from a prefab.
@@ -123,7 +139,7 @@ public class RoomSpawner : MonoBehaviour
             return null;
         }
 
-        _spawnedRooms.Append(_instance);
+        _spawnedRooms.Add(_instance);
 
         // Passes a reference of the spawner to the room.
         Room _spawnedRoom = _instance.GetComponent<Room>();
@@ -153,10 +169,15 @@ public class RoomSpawner : MonoBehaviour
     // Defines where the next room will be spawned.
     private Vector3 SetSpawnPosition()
     {
+        /*
         // Moves the initialSpawnPosition to the location of the next room.
         Vector3 _spawnPosition = initialSpawnPosition + roomNumber * new Vector3(roomSize.x * exitDirection.x, roomSize.y * exitDirection.y);
         roomNumber += 1;
         return _spawnPosition;
+        */
+
+        roomNumber += 1;
+        return Vector3.zero;
     }
     #endregion
 
@@ -193,9 +214,6 @@ public class RoomSpawner : MonoBehaviour
         }
 
         _availableRooms = _roomPaths;
-        /*
-        Debug.Log("_availableRooms = [" + string.Join(", ", _availableRooms) + "]");
-        */
     }
     #endregion
 
