@@ -6,6 +6,9 @@ public class PlayerAttacks : MonoBehaviour
 
     public InputSystem_Actions InputActions {get; private set;}
 
+    [SerializeField] private float attackSpeed;
+
+
     private void Awake()
     {
         InputActions = GameInput.Instance.InputActions;
@@ -30,7 +33,7 @@ public class PlayerAttacks : MonoBehaviour
     //Primary Attack! projectile
     private void OnAttackPrimary(InputAction.CallbackContext context)
     {
-
+        Attack(attackSpeed);
     }
 
     //Secondary Attack! wide sweep

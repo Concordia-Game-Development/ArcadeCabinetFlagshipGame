@@ -8,13 +8,14 @@ public class GameInput : MonoBehaviour
 
     //getting the game's input system
 
-    public InputSystem_Actions InputActions{ get; private set; } = new InputSystem_Actions();
+    public InputSystem_Actions InputActions{ get; private set; }
 
     void Awake()
     {
         if(Instance == null)
         {
             Instance = this;
+            InputActions = new InputSystem_Actions();
         }
     }
 }
