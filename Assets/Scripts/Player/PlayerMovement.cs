@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+
+public class PlayerMovement : MonoBehaviour
 {
 
   //publicly available to other classes
@@ -43,7 +44,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     //gets the rigidbody from the player
     _playerRigidbody = GetComponent<Rigidbody2D>();
 
-    InputActions = new InputSystem_Actions();
+    InputActions = GameInput.Instance.InputActions;
 
 
   }

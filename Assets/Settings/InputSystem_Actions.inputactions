@@ -27,10 +27,20 @@
                     "priority": 0
                 },
                 {
-                    "name": "Attack",
+                    "name": "AttackPrimary",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "AttackSecondary",
+                    "type": "Button",
+                    "id": "68e95335-3bdf-4884-b4ff-0e75462619f2",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false,
@@ -270,7 +280,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Attack",
+                    "action": "AttackPrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -281,7 +291,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Attack",
+                    "action": "AttackPrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -292,7 +302,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Touch",
-                    "action": "Attack",
+                    "action": "AttackPrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -303,7 +313,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Attack",
+                    "action": "AttackPrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -314,7 +324,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Attack",
+                    "action": "AttackPrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -325,7 +335,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Attack",
+                    "action": "AttackPrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -480,6 +490,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fed721f2-c3b0-4e84-af46-767d674877f5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "AttackSecondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
