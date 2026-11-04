@@ -70,6 +70,8 @@ public class RoomSpawner : MonoBehaviour
     #endregion
 
 
+    // Deleting rooms.
+    #region Room Deletion
     // Delete a single room, by its index in _spawnedRooms.
     private void DeleteRoom(int roomId)
     {
@@ -106,7 +108,7 @@ public class RoomSpawner : MonoBehaviour
             DeleteRoom(id);
         }
     }
-
+    #endregion
 
 
     // Spawning the room and tracking the instances.
@@ -217,7 +219,7 @@ public class RoomSpawner : MonoBehaviour
     #endregion
 
 
-    // Pickng a room to spawn.
+    // Picking a room to spawn.
     #region Room Picking
     // Picks a room to spawn from _availableRooms.
     private GameObject PickRoom()

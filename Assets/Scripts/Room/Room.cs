@@ -36,7 +36,6 @@ public class Room : MonoBehaviour
         }
 
         // Transition when exiting.
-
         spawner.SwitchRoom();
     }
 
