@@ -21,7 +21,6 @@ public class RoomSpawner : MonoBehaviour
     void Start()
     {
         ResetRoomSpawner();
-        InvokeRepeating("SwitchRoom", 1, 2);
     }
 
     // Update is called once per frame.
