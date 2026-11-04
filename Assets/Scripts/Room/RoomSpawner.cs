@@ -11,6 +11,9 @@ using UnityEngine.Rendering;
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
 {
+    public RoomSwitchOverlay roomSwitchOverlay = null;
+
+
     // Calls SetRoomsArray().
     void Awake()
     {
@@ -26,13 +29,14 @@ public class RoomSpawner : MonoBehaviour
     // Update is called once per frame.
     void Update()
     {
-        return;
+
     }
 
     #region Public Methods
     // The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
     public void SwitchRoom()
     {
+        Debug.Log("a");
         // Creates a new room.
         GameObject _roomObject = SpawnRoom(
             PickRoom()
@@ -55,8 +59,6 @@ public class RoomSpawner : MonoBehaviour
         {
             return;
         }
-
-        _room.EnterRoom();
     }
 
 
@@ -145,6 +147,7 @@ public class RoomSpawner : MonoBehaviour
         // Passes a reference of the spawner to the room.
         Room _spawnedRoom = _instance.GetComponent<Room>();
         _spawnedRoom.spawner = this;
+        _spawnedRoom.overlay = roomSwitchOverlay;
 
         // Returns a reference to the room which was created.
         return _instance;

@@ -22,16 +22,16 @@ public class RoomSwitchOverlay : MonoBehaviour
 
 
     // Fade-out method (hides the game)
-    public void FadeOut(float duration = 1.0f)
+    public IEnumerator FadeOut(float duration = 1.0f)
     {
-        StartCoroutine(FadeOverlay(false, duration));
+        yield return StartCoroutine(FadeOverlay(false, duration));
     }
 
 
     // Fade-in method (shows the game)
-    public void FadeIn(float duration = 1.0f)
+    public IEnumerator FadeIn(float duration = 1.0f)
     {
-        StartCoroutine(FadeOverlay(true, duration));
+        yield return StartCoroutine(FadeOverlay(true, duration));
     }
 
 

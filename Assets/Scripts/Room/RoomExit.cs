@@ -18,7 +18,6 @@ public class RoomExit : MonoBehaviour
         }
 
         transform.position = _room.ExitPosition(Vector3.zero);
-        Debug.Log(transform.position.ToString());
     }
 
     // Update is called once per frame
