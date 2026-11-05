@@ -33,7 +33,7 @@ public class PlayerAttacks : MonoBehaviour
     //Primary Attack! projectile
     private void OnAttackPrimary(InputAction.CallbackContext context)
     {
-        Attack(attackSpeed);
+        //Attack(attackSpeed);
     }
 
     //Secondary Attack! wide sweep
