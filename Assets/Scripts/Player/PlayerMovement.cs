@@ -20,7 +20,8 @@ public class PlayerMovement : MonoBehaviour
   */
   public InputSystem_Actions InputActions {get; private set;}
 
-
+  //player object
+  private Player _player;
 
   private Rigidbody2D _playerRigidbody;
 
@@ -40,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
   
   //called when the scene is first initialized
   private void Awake()
-  {    
+  {   
+    _player = GetComponent<Player>();
     //gets the rigidbody from the player
     _playerRigidbody = GetComponent<Rigidbody2D>();
 
