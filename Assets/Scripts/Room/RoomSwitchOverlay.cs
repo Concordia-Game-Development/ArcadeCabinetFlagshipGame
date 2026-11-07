@@ -39,6 +39,7 @@ public class RoomSwitchOverlay : MonoBehaviour
     // Fades the overlay (shows it or hides it depending on fadeOut parameter)
     private IEnumerator FadeOverlay(bool fadeOut, float duration)
     {
+        // TODO : Animations ?
         if (!overlay)
         {
             yield break;

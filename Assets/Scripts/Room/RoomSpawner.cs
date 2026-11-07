@@ -33,7 +33,10 @@ public class RoomSpawner : MonoBehaviour
     }
 
     #region Public Methods
-    // The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
+    /*
+        The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
+        Transition logic is NOT here, go look for it in RoomSwitchOverlay.cs, and the calls in Room.cs !
+    */
     public void SwitchRoom()
     {
         // Creates a new room.
