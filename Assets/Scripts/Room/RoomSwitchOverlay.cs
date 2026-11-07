@@ -4,6 +4,7 @@ using System.Collections;
 
 public class RoomSwitchOverlay : MonoBehaviour
 {
+    [SerializeField] float _fadeDuration = 1.0f;
     // The black screen covering the game upon transition.
     public Image overlay;
 
@@ -22,16 +23,16 @@ public class RoomSwitchOverlay : MonoBehaviour
 
 
     // Fade-out method (hides the game)
-    public IEnumerator FadeOut(float duration = 1.0f)
+    public IEnumerator FadeOut()
     {
-        yield return StartCoroutine(FadeOverlay(false, duration));
+        yield return StartCoroutine(FadeOverlay(false, _fadeDuration));
     }
 
 
     // Fade-in method (shows the game)
-    public IEnumerator FadeIn(float duration = 1.0f)
+    public IEnumerator FadeIn()
     {
-        yield return StartCoroutine(FadeOverlay(true, duration));
+        yield return StartCoroutine(FadeOverlay(true, _fadeDuration));
     }
 
 

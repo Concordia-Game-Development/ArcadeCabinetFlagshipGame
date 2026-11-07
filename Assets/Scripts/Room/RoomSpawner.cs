@@ -36,7 +36,6 @@ public class RoomSpawner : MonoBehaviour
     // The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
     public void SwitchRoom()
     {
-        Debug.Log("a");
         // Creates a new room.
         GameObject _roomObject = SpawnRoom(
             PickRoom()
