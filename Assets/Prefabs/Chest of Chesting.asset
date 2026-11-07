@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Chest of Chesting
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Chest of Chesting
-  itemDescription: Gives + 10 armor to the wearer
+  itemDescription: Gives + 10 armor to the wearer (dmg for testing for now)
   itemIcon: {fileID: 0}
+  statBonuses:
+  - statType: 0
+    value: 5
+    isPercent: 0

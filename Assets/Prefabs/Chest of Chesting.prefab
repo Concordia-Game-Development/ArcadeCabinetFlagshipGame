@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4085367064691607708}
   - component: {fileID: 4636661949040469576}
   - component: {fileID: 3001282207452503300}
-  - component: {fileID: 2373099760312193307}
+  - component: {fileID: 1919129476292451983}
   m_Layer: 0
   m_Name: Chest of Chesting
   m_TagString: Untagged
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
   itemData: {fileID: 11400000, guid: 18ab5f1b89e320b47a1f8efed56b9f4a, type: 2}
   tog: {fileID: 946440070493729224, guid: d8142856607a0a64eafb5adcb83101f1, type: 3}
---- !u!114 &2373099760312193307
+--- !u!114 &1919129476292451983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,3 +121,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemTestPickup
   worldItem: {fileID: 3001282207452503300}
+  inventory: {fileID: 0}
