@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     InputActions = GameInput.Instance.InputActions;
 
-    Direction = Vector2Int.one;
+    Direction = new Vector2Int(1, 0);
 
 
   }

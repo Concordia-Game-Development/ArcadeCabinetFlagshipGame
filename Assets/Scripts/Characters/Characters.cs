@@ -55,5 +55,4 @@ public class Characters : ScriptableObject
         Debug.Log("secondary attack");
         allAttacks.ExecuteSecondaryAttack(characterClass, attackOptions);
     }
-
 }

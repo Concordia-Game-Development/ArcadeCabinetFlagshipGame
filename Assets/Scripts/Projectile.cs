@@ -17,6 +17,15 @@ public class Projectile : MonoBehaviour
         _projectileTransform = GetComponent<Transform>();
     }
 
+    private void Update()
+    {
+        //makes sure projectile has been made with create projectile function
+        if (_projectileTransform != null)
+        {
+            moveProjectile();
+        }
+    }
+
     //moves the projectile
     public void moveProjectile()
     {
