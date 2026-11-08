@@ -11,19 +11,19 @@ public class Player : MonoBehaviour
     [SerializeField] private Characters character;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public Characters getCharacter()
+    public Characters GetCharacter()
     {
         return character;
     }
-    
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

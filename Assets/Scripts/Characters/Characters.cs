@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -19,32 +20,40 @@ public class Characters : ScriptableObject
     //the character class will hold a scriptable object of its stats
     [SerializeField] private ClassStatsData classStats;
     [SerializeField] private CharacterClass characterClass;
+
+    [SerializeField] private GameObject projectilePrefab;
     private AllAttacks allAttacks;
-    
+
     //Constructor
     public Characters()
     {
         allAttacks = new AllAttacks();
     }
-    
+
     //getter for classStats
-    public ClassStatsData getClassStats()
+    public ClassStatsData GetClassStats()
     {
         return classStats;
     }
-    
+
     //primary attack
-    public void primaryAttack()
+    public void PrimaryAttack(Dictionary<string, object> attackOptions)
     {
         Debug.Log("primary attack");
-        allAttacks.executePrimaryAttack(characterClass);
+
+        //add speed and damage to the attack options dictionary
+        attackOptions["speed"] = classStats.GetBaseValue(StatType.Haste);
+        attackOptions["damage"] = classStats.GetBaseValue(StatType.Damage);
+        attackOptions["projectilePrefab"] = projectilePrefab;
+
+        allAttacks.ExecutePrimaryAttack(characterClass, attackOptions);
     }
-    
+
     //secondary attack
-    public void secondaryAttack()
+    public void SecondaryAttack(Dictionary<string, object> attackOptions)
     {
         Debug.Log("secondary attack");
-        allAttacks.executeSecondaryAttack(characterClass);
+        allAttacks.ExecuteSecondaryAttack(characterClass, attackOptions);
     }
-    
+
 }

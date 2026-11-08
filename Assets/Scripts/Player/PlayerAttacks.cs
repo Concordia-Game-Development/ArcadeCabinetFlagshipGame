@@ -1,34 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerAttacks : MonoBehaviour
 {
 
-    public InputSystem_Actions InputActions {get; private set;}
+  public InputSystem_Actions InputActions { get; private set; }
 
-    private Player _player;
+  private Player _player;
+
+  private Dictionary<string, object> attackOptions;
 
 
-    private void Awake()
-    {
-        InputActions = GameInput.Instance.InputActions;
-        
-        _player = GetComponent<Player>();
-    }
-    
-    //Primary Attack! projectile
-    private void OnPrimaryAttack(InputAction.CallbackContext context)
-    {
-        _player.getCharacter().primaryAttack();
-    }
+  private void Awake()
+  {
+    InputActions = GameInput.Instance.InputActions;
 
-    //Secondary Attack! wide sweep
-    private void OnSecondaryAttack(InputAction.CallbackContext context)
-    {
-        _player.getCharacter().secondaryAttack();
-    }
+    _player = GetComponent<Player>();
 
-   //runs when player becomes enabled 
+    attackOptions = new Dictionary<string, object>();
+  }
+
+  //Primary Attack! projectile
+  private void OnPrimaryAttack(InputAction.CallbackContext context)
+  {
+    UpdateAttackOptions();
+    _player.GetCharacter().PrimaryAttack(attackOptions);
+  }
+
+  //Secondary Attack! wide sweep
+  private void OnSecondaryAttack(InputAction.CallbackContext context)
+  {
+    UpdateAttackOptions();
+    _player.GetCharacter().SecondaryAttack(attackOptions);
+  }
+
+  //runs when player becomes enabled 
   private void OnEnable()
   {
     InputActions.Player.Enable();
@@ -43,7 +50,14 @@ public class PlayerAttacks : MonoBehaviour
     InputActions.Player.AttackSecondary.performed -= OnSecondaryAttack;
   }
 
+  private void UpdateAttackOptions()
+  {
 
-    
+    attackOptions["position"] = new Vector2(_player.transform.position.x, _player.transform.position.y)
+    ;
+    //getting the last direction the player has faced
+    attackOptions["direction"] = _player.GetComponent<PlayerMovement>().Direction;
+  }
+
 
 }

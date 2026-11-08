@@ -18,12 +18,15 @@ public class PlayerMovement : MonoBehaviour
   }
 }
   */
-  public InputSystem_Actions InputActions {get; private set;}
+  public InputSystem_Actions InputActions { get; private set; }
 
   //player object
   private Player _player;
 
   private Rigidbody2D _playerRigidbody;
+
+  // Direction can be get from other files but only set in this file
+  public Vector2Int Direction { private set; get; }
 
   //direction of movement
   private Vector2 _movementInput;
@@ -33,20 +36,22 @@ public class PlayerMovement : MonoBehaviour
   //keeps track of velocity of the change
   private Vector2 _movementInputSmoothVelocity;
   //how fast the player will go from one velocity to another (acceleration?)
-  [SerializeField] private float _velocityChangeSpeed;
+  [SerializeField] private float acceleration;
 
   //speed of the player
-  [SerializeField] private float _speed;
+  [SerializeField] private float speed;
 
-  
+
   //called when the scene is first initialized
   private void Awake()
-  {   
+  {
     _player = GetComponent<Player>();
     //gets the rigidbody from the player
     _playerRigidbody = GetComponent<Rigidbody2D>();
 
     InputActions = GameInput.Instance.InputActions;
+
+    Direction = Vector2Int.one;
 
 
   }
@@ -55,39 +60,33 @@ public class PlayerMovement : MonoBehaviour
   private void Update()
   {
     //smooths the movement over a period of time
-    _smoothedMovementInput = Vector2.SmoothDamp(_smoothedMovementInput, _movementInput, ref _movementInputSmoothVelocity, _velocityChangeSpeed);
+    _smoothedMovementInput = Vector2.SmoothDamp(_smoothedMovementInput, _movementInput, ref _movementInputSmoothVelocity, acceleration);
     //this moves the player according to whatever input is given
-    _playerRigidbody.linearVelocity = _smoothedMovementInput * _speed;
+    _playerRigidbody.linearVelocity = _smoothedMovementInput * speed;
   }
 
-  //happens 
-  private void FixedUpdate()
-  {
-   
-  }  
 
   //Deals with all player movements (does the movement action)
   private void MovePlayer(InputAction.CallbackContext context)
   {
-    if(context.canceled){
+
+    if (context.canceled)
+    {
       _movementInput = Vector2.zero;
     }
-    else{
+    else
+    {
+      Debug.Log(_movementInput);
       _movementInput = context.ReadValue<Vector2>();
+      Direction = Vector2Int.RoundToInt(_movementInput);
     }
-    
-    
+
+
   }
 
 
-  // //called when input from player is given
-  // private void OnMove(InputValue inputValue)
-  // {
-  //   _movementInput = inputValue.Get<Vector2>();
-  // }
-
   //----------------------FOR THE INPUT SYSTEM---------------------//
-#region input stuff
+  #region input stuff
 
   //runs when player becomes enabled 
   private void OnEnable()
@@ -105,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
   }
 
 
-#endregion input stuff
-  
+  #endregion input stuff
+
 
 }

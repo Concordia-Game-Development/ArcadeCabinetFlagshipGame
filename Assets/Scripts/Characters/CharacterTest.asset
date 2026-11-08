@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Characters
   classStats: {fileID: 11400000, guid: 63e54329c6fbf41cca8e6d2b0dc29f4d, type: 2}
   characterClass: 4
+  projectilePrefab: {fileID: 4703112940987100010, guid: 456ab0cc9c4b6ed4e8bbde57d348a628, type: 3}

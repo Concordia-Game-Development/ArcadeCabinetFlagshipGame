@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+
 /*
  * EVERY SINGLE POSSIBLE ATTACK
  * This script holds the attack functions for all classes
@@ -7,115 +9,123 @@ using UnityEngine;
  * (so we will access this through each character script)
  * 
  */
+
 public class AllAttacks
 {
-    public void executePrimaryAttack(CharacterClass id)
+    public void ExecutePrimaryAttack(CharacterClass id, Dictionary<string, object> attackOptions)
     {
         switch (id)
         {
             case CharacterClass.Healer:
-            {
-                healerPrimary();
-                break;
-            }
+                {
+                    HealerPrimary(attackOptions);
+                    break;
+                }
             case CharacterClass.Tank:
-            {
-                tankPrimary();
-                break;
-            }
+                {
+                    TankPrimary(attackOptions);
+                    break;
+                }
             case CharacterClass.Melee:
-            {
-                meleePrimary();
-                break;
-            }
+                {
+                    MeleePrimary(attackOptions);
+                    break;
+                }
             case CharacterClass.Range:
-            {
-                rangePrimary();
-                break;
-            }
+                {
+                    RangePrimary(attackOptions);
+                    break;
+                }
             case CharacterClass.Test:
-            {
-                rangePrimary();
-                break;
-            }
+                {
+                    RangePrimary(attackOptions);
+                    break;
+                }
         }
     }
 
-    public void executeSecondaryAttack(CharacterClass id)
+    public void ExecuteSecondaryAttack(CharacterClass id, Dictionary<string, object> attackOptions)
     {
         switch (id)
         {
             case CharacterClass.Healer:
-            {
-                healerSecondary();
-                break;
-            }
+                {
+                    HealerSecondary(attackOptions);
+                    break;
+                }
             case CharacterClass.Tank:
-            {
-                tankSecondary();
-                break;
-            }
+                {
+                    TankSecondary(attackOptions);
+                    break;
+                }
             case CharacterClass.Melee:
-            {
-                meleeSecondary();
-                break;
-            }
+                {
+                    MeleeSecondary(attackOptions);
+                    break;
+                }
             case CharacterClass.Range:
-            {
-                rangeSecondary();
-                break;
-            }
+                {
+                    RangeSecondary(attackOptions);
+                    break;
+                }
             case CharacterClass.Test:
-            {
-                tankSecondary();
-                break;
-            }
+                {
+                    TankSecondary(attackOptions);
+                    break;
+                }
         }
 
     }
 
     //----------- HEALER ATTACKS ----------------//
-    public void healerPrimary()
+    public void HealerPrimary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("healerPrimary");
+        Debug.Log("HealerPrimary");
     }
 
-    public void healerSecondary()
+    public void HealerSecondary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("healerSecondary");
+        Debug.Log("HealerSecondary");
     }
 
     //----------- TANK ATTACKS ----------------//
-    public void tankPrimary()
+    public void TankPrimary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("tankPrimary");
+        Debug.Log("TankPrimary");
     }
 
-    public void tankSecondary()
+    public void TankSecondary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("tankSecondary");
+        Debug.Log("TankSecondary");
     }
-    
+
     //----------- MELEE ATTACKS ----------------//
-    public void meleePrimary()
+    public void MeleePrimary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("meleePrimary");
+        Debug.Log("MeleePrimary");
     }
 
-    public void meleeSecondary()
+    public void MeleeSecondary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("meleeSecondary");
+        Debug.Log("MeleeSecondary");
     }
 
     //----------- RANGE ATTACKS ----------------//
-    
-    public void rangePrimary()
+
+    //takes a dictionary containing the shooter's information
+    public void RangePrimary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("rangePrimary");
+        Debug.Log("RangePrimary");
+        //where projectile is birthed
+        Debug.Log(attackOptions["position"]);
+        Vector2 position = (Vector2)attackOptions["position"];
+        //spawns in a projectile prefab 
+        GameObject projectile = Object.Instantiate((GameObject)attackOptions["projectilePrefab"], position, Quaternion.identity);
+        projectile.GetComponent<Projectile>().createProjectile((Vector2Int)attackOptions["direction"], (float)attackOptions["speed"], (float)attackOptions["damage"]);
     }
 
-    public void rangeSecondary()
+    public void RangeSecondary(Dictionary<string, object> attackOptions)
     {
-        Debug.Log("rangeSecondary");
+        Debug.Log("RangeSecondary");
     }
 }
