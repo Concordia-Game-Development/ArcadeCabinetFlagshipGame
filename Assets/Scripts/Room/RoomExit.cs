@@ -3,21 +3,15 @@ using UnityEngine;
 // The exit trigger of the room.
 public class RoomExit : MonoBehaviour
 {
-    private Room _room;
+    public Room room = null;
 
+
+    public Room.ExitDirection exitDirection = Room.ExitDirection.Up;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Finds the first room in its hierachy.
-        _room = GetComponentInParent<Room>();
-
-        if (!_room)
-        {
-            return;
-        }
-
-        transform.position = _room.ExitPosition(Vector3.zero);
+        return;
     }
 
     // Update is called once per frame
@@ -36,6 +30,7 @@ public class RoomExit : MonoBehaviour
         // Checks whether an actual player passed the exit.
         if (IsPlayer(_colliderOwner))
         {
+            // TODO : Count players to validate room switching.
             ExitRoom();
         }
     }
@@ -44,12 +39,12 @@ public class RoomExit : MonoBehaviour
     // Whatever happens when the party exits the room (calls RoomSpawner.SwitchRoom() somehow).
     private void ExitRoom()
     {
-        if (!_room)
+        if (!room)
         {
             return;
         }
 
-        _room.NextRoom();
+        room.NextRoom();
     }
     #endregion
 
@@ -57,6 +52,6 @@ public class RoomExit : MonoBehaviour
     // Checks whether colliderOwner is a player (the method is empty for now because idk what will tell that away).
     private bool IsPlayer(GameObject colliderOwner)
     {
-        return true;
+        return colliderOwner.tag == "Player";
     }
 }

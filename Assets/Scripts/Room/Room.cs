@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Room class. Attaching this to a GameObject will make it a valid room.
@@ -40,18 +41,64 @@ public class Room : MonoBehaviour
     }
 
 
-    // Return the position of the room's exit door.
-    public Vector3 ExitPosition(Vector3 offset)
+    #region Room Exit
+    /*
+        The possible positions for an exit, relative to the room's borders.
+        Also serves as a bit field to list out the room's exits.
+    */
+    [System.Flags]
+    public enum ExitDirection
+    {
+        None = 0,
+        Left = 1 << 0,
+        Right = 1 << 1,
+        Up = 1 << 2,
+        Down = 1 << 3
+    }
+
+
+    // The room's exit directions.
+    public ExitDirection roomExits;
+
+
+    // Spawns the room's exit points depending on roomExits value.
+    private void SpawnExits()
+    {
+        // TODO : Fill this function (especially the part where it checks the flags in roomExits).
+    }
+
+
+    // Return the position of the room's exit door, depending on its direction.
+    private Vector3 GetExitPosition(ExitDirection direction, Vector3 offset)
     {
         if (!spawner)
         {
             return Vector3.zero;
         }
 
-        Vector3 _roomSize = new Vector3(0, spawner.roomSize.y);
+        // The room size, as decided by the RoomSpawner.
+        Vector3 _roomSize = (Vector3)spawner.roomSize;
+        Vector3 _exitPosition = transform.position;
 
-        return 0.5f * _roomSize + offset + transform.position;
+        switch (direction)
+        {
+            case ExitDirection.Left:
+                _exitPosition = -0.5f * new Vector3(_roomSize.x, 0) + offset;
+                break;
+            case ExitDirection.Right:
+                _exitPosition = 0.5f * new Vector3(_roomSize.x, 0) + offset;
+                break;
+            case ExitDirection.Down:
+                _exitPosition = -0.5f * new Vector3(0, _roomSize.y) + offset;
+                break;
+            case ExitDirection.Up:
+                _exitPosition = 0.5f * new Vector3(0, _roomSize.y) + offset;
+                break;
+        }
+
+        return _exitPosition;
     }
+    #endregion
 
 
     #region Room Transition
