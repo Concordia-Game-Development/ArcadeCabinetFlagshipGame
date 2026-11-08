@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
 {
+    // The transition overlay.
     public RoomSwitchOverlay roomSwitchOverlay = null;
+    // The prefab used for room exits.
+    public GameObject roomExitPrefab = null;
 
 
     // Calls SetRoomsArray().
@@ -121,6 +119,16 @@ public class RoomSpawner : MonoBehaviour
     private List<GameObject> _spawnedRooms = new List<GameObject>();
 
 
+    // The position where the initial room is spawned.
+    public Vector3 initialSpawnPosition = Vector3.zero;
+    // The room's size in Unity's mystery units, stored as a 2D vector.
+    public Vector2 roomSize = Vector2.zero;
+
+
+    // The number of rooms already generated. Also works for the index (starting at 0) of the party's next room.
+    private int roomNumber = 0;
+
+
     // Spawns a new Room from a prefab.
     private GameObject SpawnRoom(GameObject room)
     {
@@ -131,11 +139,8 @@ public class RoomSpawner : MonoBehaviour
             return null;
         }
 
-        // Defines the position where the next room will be spawned.
-        Vector3 _spawnPosition = SetSpawnPosition();
-
         // Instantiates the room at the spawn position.
-        GameObject _instance = Instantiate(room, _spawnPosition, Quaternion.identity);
+        GameObject _instance = Instantiate(room, initialSpawnPosition, Quaternion.identity);
 
         if (!_instance.GetComponent<Room>())
         {
@@ -144,6 +149,7 @@ public class RoomSpawner : MonoBehaviour
             return null;
         }
 
+        roomNumber += 1;
         _spawnedRooms.Add(_instance);
 
         // Passes a reference of the spawner to the room.
@@ -153,37 +159,6 @@ public class RoomSpawner : MonoBehaviour
 
         // Returns a reference to the room which was created.
         return _instance;
-    }
-    #endregion
-
-
-    // Defining where to spawn the next room.
-    #region Spawn Position
-    // The position where the initial room is spawned.
-    public Vector3 initialSpawnPosition = Vector3.zero;
-    // The room's size in Unity's mystery units, stored as a 2D vector.
-    public Vector2 roomSize = Vector2.zero;
-
-    // The direction where the party exits a room after clearing it, as a normalized vector.
-    public Vector3 exitDirection = Vector3.up;
-
-
-    // The number of rooms already generated. Also works for the index (starting at 0) of the party's next room.
-    private int roomNumber = 0;
-
-
-    // Defines where the next room will be spawned.
-    private Vector3 SetSpawnPosition()
-    {
-        /*
-        // Moves the initialSpawnPosition to the location of the next room.
-        Vector3 _spawnPosition = initialSpawnPosition + roomNumber * new Vector3(roomSize.x * exitDirection.x, roomSize.y * exitDirection.y);
-        roomNumber += 1;
-        return _spawnPosition;
-        */
-
-        roomNumber += 1;
-        return Vector3.zero;
     }
     #endregion
 

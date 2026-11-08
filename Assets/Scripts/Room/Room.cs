@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // Room class. Attaching this to a GameObject will make it a valid room.
@@ -28,18 +27,18 @@ public class Room : MonoBehaviour
     }
 
 
-    // Called upon entering the room.
-    public void EnterRoom()
-    {
-        CreateExits();
-        StartCoroutine(EnterRoomTransition());
-    }
-
-
     // Going into the next room, triggered by the child RoomExit.
     public void NextRoom()
     {
         StartCoroutine(NextRoomTransition());
+    }
+
+
+    // Called upon entering the room.
+    private void EnterRoom()
+    {
+        CreateExits();
+        StartCoroutine(EnterRoomTransition());
     }
 
 
@@ -48,7 +47,7 @@ public class Room : MonoBehaviour
         The possible positions for an exit, relative to the room's borders.
         Also serves as a bit field to list out the room's exits.
     */
-    [System.Flags]
+    [Flags]
     public enum ExitDirection
     {
         None = 0, // 0b0000
@@ -74,8 +73,10 @@ public class Room : MonoBehaviour
     // Creates the room's exit points depending on roomExits value.
     private void CreateExits()
     {
+        // Iterates through the possible exit positions.
         foreach (ExitDirection direction in Enum.GetValues(typeof(ExitDirection)))
         {
+            // If the room is supposed to have an exit at this position, it spawns one.
             if (HasExit(direction))
             {
                 SpawnExit(direction);
@@ -87,8 +88,31 @@ public class Room : MonoBehaviour
     // Spawns a single exit.
     private void SpawnExit(ExitDirection direction)
     {
-        // TODO : Spawning logic.
-        Debug.Log(GetExitPosition(direction, Vector3.zero));
+        // Stops the method if there is no prefab to use.
+        if (!(spawner && spawner.roomExitPrefab))
+        {
+            return;
+        }
+
+        // Gets the transform information for this exit.
+        Pose _exitTransform = GetExitPosition(direction, Vector3.zero);
+
+        // Creates an exit.
+        GameObject _instance = Instantiate(spawner.roomExitPrefab, transform);
+        _instance.transform.position = _exitTransform.position;
+        _instance.transform.rotation = _exitTransform.rotation;
+
+        // Destroys the "exit" if it turns out not to be an exit.
+        if (!_instance.GetComponent<RoomExit>())
+        {
+            Destroy(_instance);
+            Debug.LogError("The loaded prefab " + _instance.name + " passed to SpawnExit() is not a RoomExit !", gameObject);
+            return;
+        }
+
+        // Passes a reference of this room to the exit.
+        RoomExit _roomExit = _instance.GetComponent<RoomExit>();
+        _roomExit.room = this;
     }
 
 

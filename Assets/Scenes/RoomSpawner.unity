@@ -127,6 +127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7584207562372738306, guid: 10dd0fa1c3dfb534bbd125c68bc35698, type: 3}
+      propertyPath: roomSize.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584207562372738306, guid: 10dd0fa1c3dfb534bbd125c68bc35698, type: 3}
+      propertyPath: roomSize.y
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7695535677562442043, guid: 10dd0fa1c3dfb534bbd125c68bc35698, type: 3}
       propertyPath: m_Name
       value: RoomSpawner
