@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class Room : MonoBehaviour
     // Called upon entering the room.
     public void EnterRoom()
     {
+        CreateExits();
         StartCoroutine(EnterRoomTransition());
     }
 
@@ -49,11 +51,11 @@ public class Room : MonoBehaviour
     [System.Flags]
     public enum ExitDirection
     {
-        None = 0,
-        Left = 1 << 0,
-        Right = 1 << 1,
-        Up = 1 << 2,
-        Down = 1 << 3
+        None = 0, // 0b0000
+        Left = 1 << 0, // 0b0001
+        Right = 1 << 1, // 0b0010
+        Up = 1 << 2, // 0b0100
+        Down = 1 << 3 // 0b1000
     }
 
 
@@ -61,42 +63,69 @@ public class Room : MonoBehaviour
     public ExitDirection roomExits;
 
 
-    // Spawns the room's exit points depending on roomExits value.
-    private void SpawnExits()
+    // Returns whether the room possesses these exit directions.
+    private bool HasExit(ExitDirection direction)
     {
-        // TODO : Fill this function (especially the part where it checks the flags in roomExits).
+        int _direction = (int)direction;
+        return _direction != 0 && (_direction & (int)roomExits) == _direction;
     }
 
 
-    // Return the position of the room's exit door, depending on its direction.
-    private Vector3 GetExitPosition(ExitDirection direction, Vector3 offset)
+    // Creates the room's exit points depending on roomExits value.
+    private void CreateExits()
+    {
+        foreach (ExitDirection direction in Enum.GetValues(typeof(ExitDirection)))
+        {
+            if (HasExit(direction))
+            {
+                SpawnExit(direction);
+            }
+        }
+    }
+
+
+    // Spawns a single exit.
+    private void SpawnExit(ExitDirection direction)
+    {
+        // TODO : Spawning logic.
+        Debug.Log(GetExitPosition(direction, Vector3.zero));
+    }
+
+
+    // Return a transform for the room's exit door, depending on its direction.
+    private Pose GetExitPosition(ExitDirection direction, Vector3 offset)
     {
         if (!spawner)
         {
-            return Vector3.zero;
+            return new Pose();
         }
 
         // The room size, as decided by the RoomSpawner.
         Vector3 _roomSize = (Vector3)spawner.roomSize;
         Vector3 _exitPosition = transform.position;
+        Quaternion _exitRotation = new Quaternion();
 
         switch (direction)
         {
             case ExitDirection.Left:
                 _exitPosition = -0.5f * new Vector3(_roomSize.x, 0) + offset;
+                _exitRotation = Quaternion.Euler(0, 0, 180);
                 break;
             case ExitDirection.Right:
                 _exitPosition = 0.5f * new Vector3(_roomSize.x, 0) + offset;
+                _exitRotation = Quaternion.Euler(0, 0, 0);
                 break;
             case ExitDirection.Down:
                 _exitPosition = -0.5f * new Vector3(0, _roomSize.y) + offset;
+                _exitRotation = Quaternion.Euler(0, 0, -90);
                 break;
             case ExitDirection.Up:
                 _exitPosition = 0.5f * new Vector3(0, _roomSize.y) + offset;
+                _exitRotation = Quaternion.Euler(0, 0, 90);
                 break;
         }
 
-        return _exitPosition;
+        return new Pose(_exitPosition, _exitRotation);
     }
     #endregion
 
