@@ -6,27 +6,31 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     // TEMP : This is just a temporary method that makes the room clear itself after 3 seconds, to showcase the room spawning and room transition effects.
-    private IEnumerator ClearRoom()
+    private IEnumerator TempClearRoom()
     {
-        yield return new WaitForSeconds(3f);
-        NextRoom();
+        yield return new WaitForSeconds(2f);
+        ClearRoom();
+        if (spawner && spawner.showOff)
+        {
+            yield return new WaitForSeconds(1f);
+            NextRoom();
+        }
     }
 
 
     // The RoomSpawner responsible for this room.
     public RoomSpawner spawner = null;
-    // The room transition overlay.
-    public RoomSwitchOverlay overlay = null;
 
 
     void Start()
     {
         EnterRoom();
-        // TEMP : See ClearRoom() definition.
-        StartCoroutine(ClearRoom());
+        // TEMP : See TempClearRoom() definition.
+        StartCoroutine(TempClearRoom());
     }
 
 
+    #region Public Methods
     // Going into the next room, triggered by the child RoomExit.
     public void NextRoom()
     {
@@ -34,15 +38,27 @@ public class Room : MonoBehaviour
     }
 
 
+    // Called upon completing the room (defeating all enemies and claiming the items or something).
+    public void ClearRoom()
+    {
+        // Any behavior that happens when the room is completed (opening doors, playing sounds and stuff) goes here.
+        CreateExits();
+    }
+    #endregion
+
+
+    // Upon creating the room.
+    #region Room Initialization
     // Called upon entering the room.
     private void EnterRoom()
     {
-        CreateExits();
         StartCoroutine(EnterRoomTransition());
     }
+    #endregion
 
 
-    #region Room Exit
+    // Managing the room's exit triggers.
+    #region Room Exits
     /*
         The possible positions for an exit, relative to the room's borders.
         Also serves as a bit field to list out the room's exits.
@@ -88,7 +104,7 @@ public class Room : MonoBehaviour
     // Spawns a single exit.
     private void SpawnExit(ExitDirection direction)
     {
-        // Stops the method if there is no prefab to use.
+        // Skips the method if there is no prefab to use.
         if (!(spawner && spawner.roomExitPrefab))
         {
             return;
@@ -113,6 +129,7 @@ public class Room : MonoBehaviour
         // Passes a reference of this room to the exit.
         RoomExit _roomExit = _instance.GetComponent<RoomExit>();
         _roomExit.room = this;
+        _roomExit.direction = direction;
     }
 
 
@@ -154,7 +171,12 @@ public class Room : MonoBehaviour
     #endregion
 
 
+    // Calling transitions between rooms.
     #region Room Transition
+    // The room transition overlay.
+    public RoomSwitchOverlay overlay = null;
+
+
     // Coroutine for room transition.
     private IEnumerator NextRoomTransition()
     {

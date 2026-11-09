@@ -6,6 +6,11 @@ using UnityEngine;
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
 {
+
+    // TEMP : Indicates whether the rooms will automatically clear.
+    public bool showOff = false;
+
+
     // The transition overlay.
     public RoomSwitchOverlay roomSwitchOverlay = null;
     // The prefab used for room exits.

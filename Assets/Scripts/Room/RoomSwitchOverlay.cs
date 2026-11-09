@@ -51,7 +51,7 @@ public class RoomSwitchOverlay : MonoBehaviour
         Color color = overlay.color;
         float initialAlpha = color.a;
         // The alpha value to reach at the end of the fade
-        float finalAlpha = (fadeOut) ? 0.0f : 1.0f;
+        float finalAlpha = fadeOut ? 0.0f : 1.0f;
 
         while (timer < duration)
         {

@@ -3,40 +3,48 @@ using UnityEngine;
 // The exit trigger of the room.
 public class RoomExit : MonoBehaviour
 {
+    // The amount of players required to be in the exit at the same time to exit the room.
+    public static int targetPlayerCount = 1;
+    // The room this exit belongs to.
     public Room room = null;
+    // The exit direction. Doesn't do anything.
+    public Room.ExitDirection direction = Room.ExitDirection.Up;
+    // The exit's trigger hitbox.
+    public Collider2D hitbox = null;
 
 
-    public Room.ExitDirection exitDirection = Room.ExitDirection.Up;
+    // The number of players currently standing in the exit.
+    private int playerCount = 0;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        return;
-    }
+        // Registers all overlapping colliders.
+        Collider2D[] colliderArray = new Collider2D[targetPlayerCount];
+        hitbox.Overlap(ContactFilter2D.noFilter, colliderArray);
 
-    // Update is called once per frame
-    void Update()
-    {
-        return;
-    }
-
-
-    #region Exiting Room
-    // OnTriggerEnter is called when the Collider other enters the trigger
-    private void OnTriggerEnter(Collider other)
-    {
-        GameObject _colliderOwner = other.gameObject;
-
-        // Checks whether an actual player passed the exit.
-        if (IsPlayer(_colliderOwner))
+        playerCount = 0;
+        foreach (Collider2D collider in colliderArray)
         {
-            // TODO : Count players to validate room switching.
+            if (!collider)
+            {
+                break;
+            }
+            GameObject colliderOwner = collider.gameObject;
+            if (colliderOwner.tag == "Player")
+            {
+                playerCount += 1;
+            }
+        }
+
+        if (playerCount >= targetPlayerCount)
+        {
             ExitRoom();
         }
     }
 
 
-    // Whatever happens when the party exits the room (calls RoomSpawner.SwitchRoom() somehow).
+    // Called to exit the room.
     private void ExitRoom()
     {
         if (!room)
@@ -44,14 +52,7 @@ public class RoomExit : MonoBehaviour
             return;
         }
 
+        // Triggers the room change.
         room.NextRoom();
-    }
-    #endregion
-
-
-    // Checks whether colliderOwner is a player (the method is empty for now because idk what will tell that away).
-    private bool IsPlayer(GameObject colliderOwner)
-    {
-        return colliderOwner.tag == "Player";
     }
 }
