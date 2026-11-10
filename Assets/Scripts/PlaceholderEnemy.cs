@@ -14,7 +14,6 @@ public class PlaceholderEnemy : MonoBehaviour
     //If something hits the enemy
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("touched");
         if (collision.gameObject.GetComponent<Projectile>() != null)
         {
             Projectile projectile = collision.gameObject.GetComponent<Projectile>();
