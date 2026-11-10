@@ -121,7 +121,7 @@ public class AllAttacks
         Vector2 position = (Vector2)attackOptions["position"];
         //spawns in a projectile prefab 
         GameObject projectile = Object.Instantiate((GameObject)attackOptions["projectilePrefab"], position, Quaternion.identity);
-        projectile.GetComponent<Projectile>().createProjectile((Vector2Int)attackOptions["direction"], (float)attackOptions["speed"], (float)attackOptions["damage"]);
+        projectile.GetComponent<Projectile>().CreateProjectile((Vector2Int)attackOptions["direction"], (float)attackOptions["speed"], (float)attackOptions["damage"]);
     }
 
     public void RangeSecondary(Dictionary<string, object> attackOptions)

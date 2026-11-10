@@ -9,18 +9,39 @@ using UnityEngine;
 public class PlaceholderEnemy : MonoBehaviour
 {
 
-    [SerializeField] private int health;
+    [SerializeField] private float health;
 
     //If something hits the enemy
-    private void OnCollision2D(Collider2D collider)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        // if (collider.GetComponent<Projectile>() != null)
-        // {
-        //     GameObject projectile = collider.GetComponent<GameObject>();
+        Debug.Log("touched");
+        if (collision.gameObject.GetComponent<Projectile>() != null)
+        {
+            Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+            GetHurt(projectile.GetDamage());
+            //destroy the projectile
+            projectile.Die();
+        }
+    }
 
-        // }
+    //reduces the enemy's health
+    private void GetHurt(float damage)
+    {
 
+        Debug.Log("ow");
 
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    //enemy gets destroyed
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 
 
