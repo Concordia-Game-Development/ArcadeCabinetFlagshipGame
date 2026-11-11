@@ -19,6 +19,10 @@ public class PlayerAttacks : MonoBehaviour
     _player = GetComponent<Player>();
 
     attackOptions = new Dictionary<string, object>();
+
+    //getting the whole player/enemy 
+    attackOptions["attacker"] = _player;
+
   }
 
   //Primary Attack! projectile
@@ -57,6 +61,7 @@ public class PlayerAttacks : MonoBehaviour
     ;
     //getting the last direction the player has faced
     attackOptions["direction"] = _player.GetComponent<PlayerMovement>().Direction;
+
   }
 
 

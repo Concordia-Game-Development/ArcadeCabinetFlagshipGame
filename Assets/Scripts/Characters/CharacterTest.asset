@@ -15,3 +15,4 @@ MonoBehaviour:
   classStats: {fileID: 11400000, guid: 63e54329c6fbf41cca8e6d2b0dc29f4d, type: 2}
   characterClass: 4
   projectilePrefab: {fileID: 4703112940987100010, guid: 456ab0cc9c4b6ed4e8bbde57d348a628, type: 3}
+  weaponPrefab: {fileID: 7182108659237106093, guid: a02c95dc1b654b945a398a1ddb1df202, type: 3}

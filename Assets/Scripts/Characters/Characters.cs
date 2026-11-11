@@ -22,6 +22,8 @@ public class Characters : ScriptableObject
     [SerializeField] private CharacterClass characterClass;
 
     [SerializeField] private GameObject projectilePrefab;
+
+    [SerializeField] private GameObject weaponPrefab;
     private AllAttacks allAttacks;
 
     //Constructor
@@ -53,6 +55,12 @@ public class Characters : ScriptableObject
     public void SecondaryAttack(Dictionary<string, object> attackOptions)
     {
         Debug.Log("secondary attack");
+
+        //add speed and damage to the attack options dictionary
+        attackOptions["speed"] = classStats.GetBaseValue(StatType.Haste);
+        attackOptions["damage"] = classStats.GetBaseValue(StatType.Damage);
+        attackOptions["weaponPrefab"] = weaponPrefab;
+
         allAttacks.ExecuteSecondaryAttack(characterClass, attackOptions);
     }
 }

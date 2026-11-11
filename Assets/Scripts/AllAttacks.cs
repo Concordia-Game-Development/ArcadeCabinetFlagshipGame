@@ -70,7 +70,7 @@ public class AllAttacks
                 }
             case CharacterClass.Test:
                 {
-                    TankSecondary(attackOptions);
+                    MeleePrimary(attackOptions);
                     break;
                 }
         }
@@ -103,6 +103,11 @@ public class AllAttacks
     public void MeleePrimary(Dictionary<string, object> attackOptions)
     {
         Debug.Log("MeleePrimary");
+
+        Vector2 position = (Vector2)attackOptions["position"];
+        //spawn in the weapon
+        GameObject weapon = Object.Instantiate((GameObject)attackOptions["weaponPrefab"], position, Quaternion.identity);
+        weapon.GetComponent<Weapon>().CreateWeapon((Vector2Int)attackOptions["direction"], (float)attackOptions["speed"], (float)attackOptions["damage"], attackOptions["attacker"]);
     }
 
     public void MeleeSecondary(Dictionary<string, object> attackOptions)
