@@ -342,7 +342,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7584207562372738306, guid: 10dd0fa1c3dfb534bbd125c68bc35698, type: 3}
       propertyPath: roomSize.x
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7584207562372738306, guid: 10dd0fa1c3dfb534bbd125c68bc35698, type: 3}
       propertyPath: roomSize.y

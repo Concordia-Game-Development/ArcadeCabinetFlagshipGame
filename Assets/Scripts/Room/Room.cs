@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 // Room class. Attaching this to a GameObject will make it a valid room.
@@ -10,20 +11,20 @@ public class Room : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         ClearRoom();
-        if (spawner && spawner.showOff)
-        {
-            yield return new WaitForSeconds(1f);
-            NextRoom();
-        }
     }
 
 
     // The RoomSpawner responsible for this room.
     public RoomSpawner spawner = null;
+    // The opposite direction from which the room was entered (ExitDirection.Right means that the room was entered from the left).
+    public ExitDirection entryDirection = ExitDirection.None;
+    // The direction from which the room was exited.
+    public ExitDirection exitDirection = ExitDirection.None;
 
 
     void Start()
     {
+        TeleportPlayer();
         EnterRoom();
         // TEMP : See TempClearRoom() definition.
         StartCoroutine(TempClearRoom());
@@ -49,11 +50,24 @@ public class Room : MonoBehaviour
 
     // Upon creating the room.
     #region Room Initialization
+
+
+    // Putting the players at the entrance.
+    private void TeleportPlayer()
+    {
+
+    }
+
+
     // Called upon entering the room.
     private void EnterRoom()
     {
         StartCoroutine(EnterRoomTransition());
     }
+    #endregion
+
+
+    #region Room Structure
     #endregion
 
 
@@ -177,7 +191,7 @@ public class Room : MonoBehaviour
     public RoomSwitchOverlay overlay = null;
 
 
-    // Coroutine for room transition.
+    // Coroutine for exiting room.
     private IEnumerator NextRoomTransition()
     {
         if (!spawner)
@@ -185,12 +199,14 @@ public class Room : MonoBehaviour
             yield break;
         }
 
+        // TODO : Freeze inputs
+
         if (overlay)
         {
             yield return StartCoroutine(overlay.FadeOut());
         }
 
-        spawner.SwitchRoom();
+        spawner.SwitchRoom(exitDirection);
     }
 
 
@@ -199,9 +215,10 @@ public class Room : MonoBehaviour
     {
         if (overlay)
         {
-            StartCoroutine(overlay.FadeIn());
+            yield return StartCoroutine(overlay.FadeIn());
         }
-        yield break;
+
+        // TODO : Unfreeze inputs
     }
     #endregion
 }

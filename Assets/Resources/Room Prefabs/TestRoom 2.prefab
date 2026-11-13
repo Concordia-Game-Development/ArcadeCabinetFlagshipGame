@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   spawner: {fileID: 0}
-  overlay: {fileID: 0}
+  entryDirection: 0
+  exitDirection: 0
   roomExits: 14
+  overlay: {fileID: 0}
 --- !u!1 &8180631779591516807
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +132,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.52201253, g: 0.52201253, b: 0.52201253, a: 1}
+  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

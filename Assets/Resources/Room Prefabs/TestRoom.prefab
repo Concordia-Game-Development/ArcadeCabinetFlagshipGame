@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   spawner: {fileID: 0}
-  overlay: {fileID: 0}
+  entryDirection: 0
+  exitDirection: 0
   roomExits: 10
+  overlay: {fileID: 0}
 --- !u!1 &8180631779591516807
 GameObject:
   m_ObjectHideFlags: 0

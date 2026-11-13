@@ -7,7 +7,7 @@ public class RoomExit : MonoBehaviour
     public static int targetPlayerCount = 1;
     // The room this exit belongs to.
     public Room room = null;
-    // The exit direction. Doesn't do anything.
+    // The exit direction.
     public Room.ExitDirection direction = Room.ExitDirection.Up;
     // The exit's trigger hitbox.
     public Collider2D hitbox = null;
@@ -51,6 +51,8 @@ public class RoomExit : MonoBehaviour
         {
             return;
         }
+
+        room.exitDirection = direction;
 
         // Triggers the room change.
         room.NextRoom();

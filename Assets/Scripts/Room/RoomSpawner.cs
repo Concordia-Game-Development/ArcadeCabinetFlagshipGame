@@ -6,13 +6,11 @@ using UnityEngine;
 // Room spawning logic.
 public class RoomSpawner : MonoBehaviour
 {
-
-    // TEMP : Indicates whether the rooms will automatically clear.
-    public bool showOff = false;
-
-
     // The transition overlay.
     public RoomSwitchOverlay roomSwitchOverlay = null;
+    // The room boundaries
+    public RoomBoundaries roomBoundaries = null;
+
     // The prefab used for room exits.
     public GameObject roomExitPrefab = null;
 
@@ -26,6 +24,10 @@ public class RoomSpawner : MonoBehaviour
     // Called in the beginning.
     void Start()
     {
+        if (roomBoundaries)
+        {
+            roomBoundaries.SetSize(roomSize);
+        }
         ResetRoomSpawner();
     }
 
@@ -35,12 +37,14 @@ public class RoomSpawner : MonoBehaviour
 
     }
 
+
     #region Public Methods
     /*
-        The method wrapping the room-switching mechanic. It can be called by the game manager or something after the room is cleared.
-        Transition logic is NOT here, go look for it in RoomSwitchOverlay.cs, and the calls in Room.cs !
+        The method wrapping the room-switching mechanic. Called from the RoomExit when the players take it.
+        The direction parameter is passed to the created Room, in order to put the player in the correct place.
+        Transition effects logic is NOT here, go look for it in RoomSwitchOverlay.cs, and the calls in Room.cs !
     */
-    public void SwitchRoom()
+    public void SwitchRoom(Room.ExitDirection direction = Room.ExitDirection.None)
     {
         // Creates a new room.
         GameObject _roomObject = SpawnRoom(
@@ -64,6 +68,8 @@ public class RoomSpawner : MonoBehaviour
         {
             return;
         }
+
+        _room.entryDirection = direction;
     }
 
 
@@ -125,7 +131,7 @@ public class RoomSpawner : MonoBehaviour
 
 
     // The position where the initial room is spawned.
-    public Vector3 initialSpawnPosition = Vector3.zero;
+    private Vector3 initialSpawnPosition = Vector3.zero;
     // The room's size in Unity's mystery units, stored as a 2D vector.
     public Vector2 roomSize = Vector2.zero;
 
