@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour
         _direction = direction;
         _weaponTransform = GetComponent<Transform>();
         //get into start position
-        Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 90, 0), duration: _speed / 10f);
+        //Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 90, 0), duration: _speed / 10f);
         _attackerTransform = attacker.ConvertTo<GameObject>().GetComponent<Transform>();
     }
 
@@ -47,7 +47,11 @@ public class Weapon : MonoBehaviour
         //45 degrees counterclockwise
         //Vector3 rotatedDir = Quaternion.Euler(0, 45, 0) * originalDir
         //_weaponTransform.rotation = _direction;
-        Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 45, 0), duration: _speed);
+        Debug.Log("Weapon rotation: " + _weaponTransform.rotation);
+        Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 0, 90), duration: _speed, ease: Ease.Linear).OnComplete(() =>
+        {
+            Destroy(gameObject);
+        });
     }
 
     //damage getter
