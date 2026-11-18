@@ -3,7 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private float _damage;
-    private float _speed;
+    private float _haste;
     private Vector2Int _direction;
 
     private Transform _projectileTransform;
@@ -15,10 +15,10 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _range;
 
     // sets the projectile's information when it is created
-    public void CreateProjectile(Vector2Int direction, float speed, float damage)
+    public void CreateProjectile(Vector2Int direction, float haste, float damage)
     {
         _damage = damage;
-        _speed = speed;
+        _haste = haste;
         _direction = direction;
         _spawnPoint = GetComponent<Transform>().position;
         _projectileTransform = GetComponent<Transform>();
@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
     {
         //removes vector magnitude (length) to keep only direction
         Vector3 moveDirection = new Vector2(_direction.x, _direction.y).normalized;
-        _projectileTransform.position += moveDirection * _speed * Time.deltaTime;
+        _projectileTransform.position += moveDirection * _haste * Time.deltaTime;
 
         CheckRange();
     }
@@ -68,7 +68,7 @@ public class Projectile : MonoBehaviour
         //distance from spawn
         float distance = Mathf.Sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        Debug.Log(distance);
+
         // if outside the range, die
         if (distance > _range)
         {

@@ -22,6 +22,7 @@ public class PlayerAttacks : MonoBehaviour
 
     //getting the whole player/enemy 
     attackOptions["attacker"] = _player;
+    attackOptions["attackerTransform"] = _player.transform;
 
   }
 

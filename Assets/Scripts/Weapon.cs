@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
 
     private float _damage;
-    private float _speed;
+    private float _haste;
 
     private Vector2Int _direction;
 
@@ -14,33 +14,34 @@ public class Weapon : MonoBehaviour
 
     private Transform _weaponTransform;
 
-    public void CreateWeapon(Vector2Int direction, float speed, float damage, object attacker)
+    public void CreateWeapon(Vector2Int direction, float haste, float damage, object attacker)
     {
         _damage = damage;
-        _speed = speed;
+        _haste = haste;
         _direction = direction;
         _weaponTransform = GetComponent<Transform>();
-        //get into start position
-        //Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 90, 0), duration: _speed / 10f);
+        Debug.Log(direction);
+        //get into start position (45 degrees counterclockwise)
+        _weaponTransform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 45);
         _attackerTransform = attacker.ConvertTo<GameObject>().GetComponent<Transform>();
+
+        SwipeWeapon();
     }
 
-
-    private void Update()
+    void Update()
     {
-        //makes sure weapon has been made
-        if (_attackerTransform != null)
+        if (_weaponTransform != null)
         {
-            SwipeWeapon();
+            //make sure weapon follows the player
+            _weaponTransform.position = _attackerTransform.position;
         }
     }
+
+
 
     //swipes the weapon in an arc in front of the player
     public void SwipeWeapon()
     {
-        //make sure weapon follows the player
-        _weaponTransform.position = _attackerTransform.position;
-
 
 
         //swipe the weapon
@@ -48,7 +49,7 @@ public class Weapon : MonoBehaviour
         //Vector3 rotatedDir = Quaternion.Euler(0, 45, 0) * originalDir
         //_weaponTransform.rotation = _direction;
         Debug.Log("Weapon rotation: " + _weaponTransform.rotation);
-        Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 0, 90), duration: _speed, ease: Ease.Linear).OnComplete(() =>
+        Tween.Rotation(_weaponTransform, endValue: Quaternion.Euler(0, 0, Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg - 135f), duration: _haste, ease: Ease.Linear).OnComplete(() =>
         {
             Destroy(gameObject);
         });

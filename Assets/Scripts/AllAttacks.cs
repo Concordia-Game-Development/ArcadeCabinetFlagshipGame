@@ -106,8 +106,8 @@ public class AllAttacks
 
         Vector2 position = (Vector2)attackOptions["position"];
         //spawn in the weapon
-        GameObject weapon = Object.Instantiate((GameObject)attackOptions["weaponPrefab"], position, Quaternion.identity);
-        weapon.GetComponent<Weapon>().CreateWeapon((Vector2Int)attackOptions["direction"], (float)attackOptions["speed"], (float)attackOptions["damage"], attackOptions["attacker"]);
+        GameObject weapon = Object.Instantiate((GameObject)attackOptions["weaponPrefab"], position, Quaternion.identity, (Transform)attackOptions["attackerTransform"]);
+        weapon.GetComponent<Weapon>().CreateWeapon((Vector2Int)attackOptions["direction"], (float)attackOptions["haste"], (float)attackOptions["damage"], attackOptions["attacker"]);
     }
 
     public void MeleeSecondary(Dictionary<string, object> attackOptions)
@@ -126,7 +126,7 @@ public class AllAttacks
         Vector2 position = (Vector2)attackOptions["position"];
         //spawns in a projectile prefab 
         GameObject projectile = Object.Instantiate((GameObject)attackOptions["projectilePrefab"], position, Quaternion.identity);
-        projectile.GetComponent<Projectile>().CreateProjectile((Vector2Int)attackOptions["direction"], (float)attackOptions["speed"], (float)attackOptions["damage"]);
+        projectile.GetComponent<Projectile>().CreateProjectile((Vector2Int)attackOptions["direction"], (float)attackOptions["haste"], (float)attackOptions["damage"]);
     }
 
     public void RangeSecondary(Dictionary<string, object> attackOptions)

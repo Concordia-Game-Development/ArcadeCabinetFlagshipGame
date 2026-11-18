@@ -44,7 +44,7 @@ public class Characters : ScriptableObject
         Debug.Log("primary attack");
 
         //add speed and damage to the attack options dictionary
-        attackOptions["speed"] = classStats.GetBaseValue(StatType.Haste);
+        attackOptions["haste"] = classStats.GetBaseValue(StatType.Haste);
         attackOptions["damage"] = classStats.GetBaseValue(StatType.Damage);
         attackOptions["projectilePrefab"] = projectilePrefab;
 
@@ -57,7 +57,7 @@ public class Characters : ScriptableObject
         Debug.Log("secondary attack");
 
         //add speed and damage to the attack options dictionary
-        attackOptions["speed"] = classStats.GetBaseValue(StatType.Haste);
+        attackOptions["haste"] = classStats.GetBaseValue(StatType.Haste);
         attackOptions["damage"] = classStats.GetBaseValue(StatType.Damage);
         attackOptions["weaponPrefab"] = weaponPrefab;
 
