@@ -21,6 +21,11 @@ public class PlaceholderEnemy : MonoBehaviour
             //destroy the projectile
             projectile.Die();
         }
+        else if (collision.gameObject.GetComponent<Weapon>() != null)
+        {
+            Weapon weapon = collision.gameObject.GetComponent<Weapon>();
+            GetHurt(weapon.GetDamage());
+        }
     }
 
     //reduces the enemy's health
