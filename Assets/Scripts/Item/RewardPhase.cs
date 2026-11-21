@@ -3,177 +3,169 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum AutoPickMode
-{
-    Random, // Timer runs out: give a random unclaimed item
-    First // Timer runs out: give the first unclaimed item
-}
-
-// After a room is cleared: pauses the game, offers items on the reward screen, each player claims exactly one
+// After a room is cleared: items launch out of the pan, players walk up and each claims exactly one
 public class RewardPhase : MonoBehaviour
 {
     [SerializeField] private ItemPool _itemPool; // Items that can be offered
-    [SerializeField] private RewardScreen _rewardScreen; // The popup UI
+    [SerializeField] private RewardItem _rewardItemPrefab; // The plate prefab spawned for each item
     [SerializeField] private int _itemCount = 6;
+    [SerializeField] private GameObject _dimOverlay; // Optional dark sprite shown during the phase (sort it below the items)
 
-    [Header("Pick Timer")]
-    [SerializeField] private float _pickTimeLimit = 20f; //seconds before remaining players get an item picked for them, 0 = no timer
-    [SerializeField] private AutoPickMode _autoPickMode = AutoPickMode.Random;
+    [Header("Launch")]
+    [SerializeField] private float _launchDuration = 0.6f; // Seconds to fly from the pan to the landing spot
+    [SerializeField] private float _launchArcHeight = 2f; // How high the arc goes
+    [SerializeField] private float _launchStagger = 0.1f; // Delay between each item popping out
+
+    [Header("Player Colors")]
+    [SerializeField] private Color[] _playerColors =
+    {
+        new Color(0.2f, 0.6f, 1f), // Blue
+        new Color(1f, 0.85f, 0.1f), // Yellow
+        new Color(0.3f, 0.85f, 0.3f), // Green
+        new Color(0.95f, 0.25f, 0.2f) // Red
+    };
+    [SerializeField] private Color _multiHoverColor = new Color(0.65f, 0.3f, 0.95f); // Purple, 2+ players at one item
 
     [Header("Testing")]
-    [SerializeField] private bool _debugStartKey = true; //press R to start, until the room system calls StartRewardPhase
+    [SerializeField] private RewardSpawnPoints _testRoom; // Used by the R key until the room system passes its own
+    [SerializeField] private bool _debugStartKey = true;
 
-    private readonly List<ItemData> _offeredItems = new List<ItemData>();
-    private readonly List<bool> _claimed = new List<bool>(); // Same order as _offeredItems
+    private readonly List<RewardItem> _items = new List<RewardItem>(); // Items still on the ground
     private readonly List<PlayerInventory> _players = new List<PlayerInventory>(); // Every player, index decides their color
     private readonly List<PlayerInventory> _playersStillPicking = new List<PlayerInventory>();
-    private float _previousTimeScale = 1f;
 
     public bool IsActive { get; private set; }
-    public float TimeRemaining { get; private set; }
-    public bool HasTimer => _pickTimeLimit > 0f;
+    public Color MultiHoverColor => _multiHoverColor;
 
     public event Action OnRewardPhaseComplete; // The room system listens to this to unlock the next room
 
     private void Update()
     {
-        if (!IsActive){
-            if (_debugStartKey && Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame){
-                StartRewardPhase();
-            }
-            return;
-        }
-
-        //unscaled time because the game is paused while picking
-        if (HasTimer){
-            TimeRemaining -= Time.unscaledDeltaTime;
-            if (TimeRemaining <= 0f){
-                AutoPickForRemainingPlayers();
-            }
+        if (!IsActive && _debugStartKey && Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            StartRewardPhase(_testRoom);
         }
     }
 
-    // Call this when a room is cleared
-    public void StartRewardPhase(){
-        if (IsActive){
+    // Call this when a room is cleared, passing that room's spawn points
+    public void StartRewardPhase(RewardSpawnPoints room)
+    {
+        if (IsActive)
+        {
             return;
         }
 
-        _offeredItems.Clear();
-        _offeredItems.AddRange(_itemPool.GetRandomItems(_itemCount));
-
-        _claimed.Clear();
-        foreach (ItemData item in _offeredItems){
-            _claimed.Add(false);
+        if (room == null || room.Pan == null)
+        {
+            Debug.LogError("RewardPhase needs a room with a pan assigned");
+            return;
         }
+
+        int count = Mathf.Min(_itemCount, room.LandingSpots.Count);
+        if (count < _itemCount)
+        {
+            Debug.LogWarning(room.name + " only has " + room.LandingSpots.Count + " landing spots, wanted " + _itemCount);
+        }
+
+        List<ItemData> offered = _itemPool.GetRandomItems(count);
 
         // Every player picks (dead players are revived on room clear)
         _players.Clear();
         _players.AddRange(FindObjectsByType<PlayerInventory>());
-        _players.Sort((a, b) => string.Compare(a.name, b.name)); //stable order so each player keeps the same color (replace with real player numbers later)
-        _playersStillPicking.Clear();
-        foreach (PlayerInventory player in _players){
-            if (player.IsFull){
-                Debug.Log(player.name + " has a full inventory, skipping their pick");
-                continue;
-            }
+        _players.Sort((a, b) => string.Compare(a.name, b.name)); // Stable order so each player keeps the same color (replace with real player numbers later)
 
-            _playersStillPicking.Add(player);
-        }
+        _playersStillPicking.Clear();
+        _playersStillPicking.AddRange(_players);
 
         IsActive = true;
-        TimeRemaining = _pickTimeLimit;
 
-        _previousTimeScale = Time.timeScale;
-        Time.timeScale = 0f; //pause the game
+        if (_dimOverlay != null)
+        {
+            _dimOverlay.SetActive(true);
+        }
 
-        _rewardScreen.Show(this, _offeredItems, _players);
-        Debug.Log("Reward phase started: " + _offeredItems.Count + " items, " + _playersStillPicking.Count + " players picking");
+        for (int i = 0; i < offered.Count; i++)
+        {
+            RewardItem item = Instantiate(_rewardItemPrefab, room.Pan.position, Quaternion.identity);
+            item.Setup(offered[i], this);
+            item.Launch(room.Pan.position, room.LandingSpots[i].position, _launchDuration, _launchArcHeight, i * _launchStagger);
+            _items.Add(item);
+        }
 
-        if (_playersStillPicking.Count == 0 || _offeredItems.Count == 0){
+        Debug.Log("Reward phase started: " + _items.Count + " items, " + _playersStillPicking.Count + " players picking");
+
+        if (_playersStillPicking.Count == 0 || _items.Count == 0)
+        {
             EndRewardPhase();
         }
     }
 
-    public bool IsStillPicking(PlayerInventory player){
+    public bool IsStillPicking(PlayerInventory player)
+    {
         return _playersStillPicking.Contains(player);
     }
 
-    // A player tries to claim the item at this card index. Returns true if they got it
-    public bool TryClaim(PlayerInventory player, int itemIndex){
-        if (!IsActive || itemIndex < 0 || itemIndex >= _offeredItems.Count){
+    public Color GetPlayerColor(PlayerInventory player)
+    {
+        int index = _players.IndexOf(player);
+        if (index < 0 || _playerColors.Length == 0)
+        {
+            return Color.white;
+        }
+
+        return _playerColors[index % _playerColors.Length];
+    }
+
+    // A player presses interact at an item. Fails if another player who still needs to pick is at the same item
+    public bool TryClaim(PlayerInventory player, RewardItem item)
+    {
+        if (!IsActive || !_items.Contains(item) || !IsStillPicking(player))
+        {
             return false;
         }
 
-        if (_claimed[itemIndex] || !_playersStillPicking.Contains(player)){
+        if (!item.CanBePickedBy(player))
+        {
             return false;
         }
 
-        if (!player.TryAdd(_offeredItems[itemIndex])){
+        if (!player.TryAdd(item.ItemData))
+        {
             return false;
         }
 
-        _claimed[itemIndex] = true;
+        Debug.Log(player.name + " picked " + item.ItemData.itemName);
+
         _playersStillPicking.Remove(player);
-        _rewardScreen.OnItemClaimed(itemIndex, player);
-        Debug.Log(player.name + " picked " + _offeredItems[itemIndex].itemName);
+        _items.Remove(item);
+        Destroy(item.gameObject);
 
-        if (_playersStillPicking.Count == 0 || !HasUnclaimedItems()){
+        if (_playersStillPicking.Count == 0 || _items.Count == 0)
+        {
             EndRewardPhase();
         }
 
         return true;
     }
 
-    // Timer ran out: give every player who hasn't picked an item
-    private void AutoPickForRemainingPlayers(){
-        List<PlayerInventory> remaining = new List<PlayerInventory>(_playersStillPicking);
-
-        foreach (PlayerInventory player in remaining){
-            int index = ChooseAutoPickIndex();
-            if (index < 0)
-            {
-                break;
-            }
-
-            TryClaim(player, index);
-        }
-
-        if (IsActive){
-            EndRewardPhase(); // Safety net so the game can never get stuck here
-        }
-    }
-
-    private int ChooseAutoPickIndex()
+    // Clears leftover items and tells listeners the phase is over
+    private void EndRewardPhase()
     {
-        List<int> unclaimed = new List<int>();
-        for (int i = 0; i < _claimed.Count; i++){
-            if (!_claimed[i])
+        foreach (RewardItem item in _items)
+        {
+            if (item != null)
             {
-                unclaimed.Add(i);
+                Destroy(item.gameObject);
             }
         }
 
-        if (unclaimed.Count == 0){
-            return -1;
-        }
-
-        if (_autoPickMode == AutoPickMode.First){
-            return unclaimed[0];
-        }
-
-        return unclaimed[UnityEngine.Random.Range(0, unclaimed.Count)];
-    }
-
-    private bool HasUnclaimedItems(){
-        return _claimed.Contains(false);
-    }
-
-    // Closes the screen, unpauses and tells listeners the phase is over
-    private void EndRewardPhase(){
+        _items.Clear();
         IsActive = false;
-        Time.timeScale = _previousTimeScale;
-        _rewardScreen.Hide();
+
+        if (_dimOverlay != null)
+        {
+            _dimOverlay.SetActive(false);
+        }
 
         Debug.Log("Reward phase complete");
         OnRewardPhaseComplete?.Invoke();
